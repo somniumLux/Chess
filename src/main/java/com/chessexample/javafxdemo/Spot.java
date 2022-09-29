@@ -6,11 +6,19 @@ public class Spot {
     private int positionX;
     private int positionY;
     private boolean isThreatened;
+    private boolean hasPiece = false;
 
-    public Spot(Piece piece, int positionX, int positionY) {
-        this.piece = piece;
+    public Spot(int positionX, int positionY) {
         this.positionX = positionX;
         this.positionY = positionY;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
 
     public int getPositionX() {
@@ -35,5 +43,13 @@ public class Spot {
 
     public void setThreatened(boolean threatened) {
         isThreatened = threatened;
+    }
+
+    public boolean hasPiece() {
+        return hasPiece;
+    }
+
+    public void setHasPiece(boolean hasPiece) {
+        this.hasPiece = hasPiece;
     }
 }

@@ -1,12 +1,21 @@
 package com.chessexample.javafxdemo;
 
-public class Piece implements PieceMovement {
+public class Piece {
 
     private boolean isWhite = false;
     private boolean isKilled = false;
     private boolean canMoveBack = true;
     private int positionX;
     private int positionY;
+    private int maxMovementDistance;
+
+    public Piece(int maxMovementDistance) {
+        this.maxMovementDistance = maxMovementDistance;
+    }
+
+    protected int getMaxMovementDistance() {
+        return maxMovementDistance;
+    }
 
     public boolean isWhite() {
         return isWhite;
@@ -44,8 +53,7 @@ public class Piece implements PieceMovement {
         return (nextPosition > currentPosition + maxMovementDistance) || (nextPosition < currentPosition - maxMovementDistance);
     }
 
-    //TODO move implementation of PieceMovement interface to Spot class
-    @Override
+    // TODO after fixing printBoard, correct and test method straightMovement
     public boolean[][] straightMovement(int maxDistance, Piece piece) {
         boolean[][] possibleEndSpots = new boolean[8][8];
         int currentPositionX = piece.getPositionX();
@@ -64,8 +72,4 @@ public class Piece implements PieceMovement {
         return possibleEndSpots;
     }
 
-    @Override
-    public boolean[][] diagonalMovement(int maxDistance, Piece piece) {
-        return new boolean[0][0];
-    }
 }
