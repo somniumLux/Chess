@@ -3,10 +3,10 @@ package com.chessexample.javafxdemo;
 public class Spot {
 
     private Piece piece;
-    private int positionX;
-    private int positionY;
+    private final int positionX;
+    private final int positionY;
     private boolean isThreatened;
-    private boolean hasPiece = false;
+    private boolean hasPiece;
 
     public Spot(int positionX, int positionY) {
         this.positionX = positionX;
@@ -25,16 +25,8 @@ public class Spot {
         return positionX;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
     public int getPositionY() {
         return positionY;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
     }
 
     public boolean isThreatened() {

@@ -1,9 +1,9 @@
 package com.chessexample.javafxdemo;
 
-public class Queen extends Piece {
+public class Pawn extends Piece {
 
-    public Queen() {
-        super(7,true);
+    public Pawn() {
+        super(1,false);
     }
 
     @Override
