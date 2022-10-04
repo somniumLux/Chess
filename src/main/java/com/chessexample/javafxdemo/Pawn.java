@@ -1,13 +1,13 @@
 package com.chessexample.javafxdemo;
 
-public class Pawn extends Piece {
+public class Pawn extends Piece implements PieceMovement {
 
     public Pawn() {
-        super(1,false);
+        super(1);
     }
 
     @Override
-    public boolean[][] straightMovement(Spot currentSpot) {
+    public boolean[][] checkMovement(Spot currentSpot) {
         return new boolean[0][];
     }
 

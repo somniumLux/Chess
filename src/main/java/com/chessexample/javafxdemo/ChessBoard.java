@@ -11,14 +11,14 @@ public class ChessBoard {
 
     public void createSpots() {
         Piece kingPiece = new King();
+        Piece queenPiece = new Queen();
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot newSpot = new Spot(x,y);
                 if (x == 2 && y == 2) {
-                    newSpot.setPiece(kingPiece);
+                    newSpot.setPiece(queenPiece);
                     newSpot.setHasPiece(true);
                 }
-
                 allSpots.add(newSpot);
             }
         }
@@ -60,8 +60,8 @@ public class ChessBoard {
     private void showPossibleMoves() {
         for (Spot currentSpot : allSpots) {
             if (currentSpot.hasPiece()) {
-                if (currentSpot.getPiece() instanceof King) {
-                    allPossibleMoves = currentSpot.getPiece().straightMovement(currentSpot);
+                if (currentSpot.getPiece() instanceof Queen) {
+                    allPossibleMoves = currentSpot.getPiece().checkMovement(currentSpot);
                 }
             }
         }

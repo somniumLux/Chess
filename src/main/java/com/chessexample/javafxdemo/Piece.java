@@ -1,15 +1,13 @@
 package com.chessexample.javafxdemo;
 
-public abstract class Piece {
+public abstract class Piece implements PieceMovement {
 
     private boolean isWhite = false;
     private boolean isKilled = false;
-    private final boolean canMoveBackwards;
     private final int maxMovementDistance;
 
-    public Piece(int maxMovementDistance, boolean canMoveBackwards) {
+    public Piece(int maxMovementDistance) {
         this.maxMovementDistance = maxMovementDistance;
-        this.canMoveBackwards = canMoveBackwards;
     }
 
     protected int getMaxMovementDistance() {
@@ -31,8 +29,5 @@ public abstract class Piece {
     public void setKilled(boolean killed) {
         isKilled = killed;
     }
-
-    //TODO make the straightMovement method work
-    public abstract boolean[][] straightMovement(Spot currentSpot);
 
 }

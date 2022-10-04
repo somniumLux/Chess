@@ -1,18 +1,19 @@
 package com.chessexample.javafxdemo;
 
-public class King extends Piece {
+public class King extends Piece implements PieceMovement {
 
     public King() {
-        super(1,true);
+        super(1);
     }
 
-    //TODO finish the method
     @Override
-    public boolean[][] straightMovement(Spot currentSpot) {
+    public boolean[][] checkMovement(Spot currentSpot) {
         boolean[][] possibleMoves = new boolean[ChessBoard.boardSize][ChessBoard.boardSize];
-        int posX = currentSpot.getPositionX();
-        int posY = currentSpot.getPositionY();
-
+        for (int y = currentSpot.getPositionY() - 1; y <= currentSpot.getPositionY() + 1; y++) {
+            for (int x = currentSpot.getPositionX() - 1; x <= currentSpot.getPositionX() + 1; x++) {
+                possibleMoves[x][y] = x != currentSpot.getPositionX() || y != currentSpot.getPositionY();
+            }
+        }
         return possibleMoves;
     }
 
