@@ -6,7 +6,7 @@ import java.util.List;
 public class ChessBoard {
 
     final static public int boardSize = 8;
-    static List<Spot> allSpots = new ArrayList<>();
+    public static List<Spot> allSpots = new ArrayList<>();
     static boolean[][] allPossibleMoves = new boolean[boardSize][boardSize];
 
     public void createSpots() {
@@ -17,6 +17,10 @@ public class ChessBoard {
                 Spot newSpot = new Spot(x,y);
                 if (x == 2 && y == 2) {
                     newSpot.setPiece(queenPiece);
+                    newSpot.setHasPiece(true);
+                }
+                if (x == 5 && y == 5) {
+                    newSpot.setPiece(kingPiece);
                     newSpot.setHasPiece(true);
                 }
                 allSpots.add(newSpot);
@@ -60,8 +64,8 @@ public class ChessBoard {
     private void showPossibleMoves() {
         for (Spot currentSpot : allSpots) {
             if (currentSpot.hasPiece()) {
-                if (currentSpot.getPiece() instanceof Queen) {
-                    allPossibleMoves = currentSpot.getPiece().checkMovement(currentSpot);
+                if (currentSpot.getPiece() instanceof King) {
+                    allPossibleMoves = currentSpot.getPiece().checkKingMovement(currentSpot);
                 }
             }
         }

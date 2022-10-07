@@ -1,8 +1,8 @@
 package com.chessexample.javafxdemo;
 
-public class Queen extends Piece {
+public class Bishop extends Piece {
 
-    public Queen() {
+    public Bishop() {
         super(7);
     }
 
