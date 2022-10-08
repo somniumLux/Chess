@@ -12,6 +12,8 @@ public class ChessBoard {
     public void createSpots() {
         Piece kingPiece = new King();
         Piece queenPiece = new Queen();
+        Piece bishopPiece = new Bishop();
+        Piece pawnPiece = new Pawn();
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot newSpot = new Spot(x,y);
@@ -22,6 +24,15 @@ public class ChessBoard {
                 if (x == 5 && y == 5) {
                     newSpot.setPiece(kingPiece);
                     newSpot.setHasPiece(true);
+                }
+                if (x == 3 && y == 5) {
+                    newSpot.setPiece(bishopPiece);
+                    newSpot.setHasPiece(true);
+                }
+                if (x == 1 && y == 6) {
+                    newSpot.setPiece(pawnPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
                 }
                 allSpots.add(newSpot);
             }
@@ -64,8 +75,16 @@ public class ChessBoard {
     private void showPossibleMoves() {
         for (Spot currentSpot : allSpots) {
             if (currentSpot.hasPiece()) {
-                if (currentSpot.getPiece() instanceof King) {
-                    allPossibleMoves = currentSpot.getPiece().checkKingMovement(currentSpot);
+                if (currentSpot.getPiece() instanceof Queen) {
+                    boolean[][] tempQueenMoves;
+                    tempQueenMoves = currentSpot.getPiece().checkStraightMovement(currentSpot);
+                    allPossibleMoves = currentSpot.getPiece().checkDiagonalMovement(currentSpot);
+                    for (int y = 0; y < ChessBoard.boardSize; y++) {
+                        for (int x = 0; x < ChessBoard.boardSize; x++) {
+                            if (tempQueenMoves[x][y])
+                                allPossibleMoves[x][y] = true;
+                        }
+                    }
                 }
             }
         }
