@@ -1,4 +1,4 @@
-package com.chessexample.javafxdemo;
+package com.chessexample.chessrules;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class Piece {
     // TODO add checking if spot already has a piece of same colour
 
     public boolean[][] checkKingsMovement(Spot currentSpot) {
-        boolean[][] possibleMoves = new boolean[ChessBoard.boardSize][ChessBoard.boardSize];
+        boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         for (int y = currentSpot.getPositionY() - 1; y <= currentSpot.getPositionY() + 1; y++) {
             for (int x = currentSpot.getPositionX() - 1; x <= currentSpot.getPositionX() + 1; x++) {
                 try {
@@ -49,14 +49,14 @@ public class Piece {
     }
 
     public boolean[][] checkStraightMovement(Spot currentSpot) {
-        boolean[][] possibleMoves = new boolean[ChessBoard.boardSize][ChessBoard.boardSize];
+        boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = currentSpot.getPositionX();
         int posY = currentSpot.getPositionY();
         int maxMovementDistance = currentSpot.getPiece().getMaxMovementDistance();
 
         for (int y = posY - maxMovementDistance; y <= posY + maxMovementDistance; y++) {
             for (int x = posX - maxMovementDistance; x <= posX + maxMovementDistance; x++) {
-                if (x < 0 || y < 0 || x > ChessBoard.boardSize - 1 || y > ChessBoard.boardSize - 1)
+                if (x < 0 || y < 0 || x > Chessboard.boardSize - 1 || y > Chessboard.boardSize - 1)
                     continue;
                 if (x == posX || y == posY)
                     possibleMoves[x][y] = true;
@@ -67,11 +67,11 @@ public class Piece {
     }
 
     public boolean[][] checkDiagonalMovement(Spot currentSpot) {
-        boolean[][] possibleMoves = new boolean[ChessBoard.boardSize][ChessBoard.boardSize];
+        boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = currentSpot.getPositionX();
         int posY = currentSpot.getPositionY();
 
-        for (int i = 1; i < ChessBoard.boardSize; i++) {
+        for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
             int y = posY + i;
             try {
@@ -80,7 +80,7 @@ public class Piece {
                 break;
             }
         }
-        for (int i = 1; i < ChessBoard.boardSize; i++) {
+        for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX - i;
             int y = posY - 1;
             try {
@@ -89,7 +89,7 @@ public class Piece {
                 break;
             }
         }
-        for (int i = 1; i < ChessBoard.boardSize; i++) {
+        for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
             int y = posY - i;
             try {
@@ -98,7 +98,7 @@ public class Piece {
                 break;
             }
         }
-        for (int i = 1; i < ChessBoard.boardSize; i++) {
+        for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX - i;
             int y = posY + i;
             try {
@@ -112,7 +112,7 @@ public class Piece {
 
     // TODO add "en passant" to checkPawnMovement method
     public boolean[][] checkPawnMovement(Spot currentSpot, List<Spot> allSpots) {
-        boolean[][] possibleMoves = new boolean[ChessBoard.boardSize][ChessBoard.boardSize];
+        boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = currentSpot.getPositionX();
         int posY = currentSpot.getPositionY();
 

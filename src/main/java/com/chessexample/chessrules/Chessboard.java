@@ -1,9 +1,9 @@
-package com.chessexample.javafxdemo;
+package com.chessexample.chessrules;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChessBoard {
+public class Chessboard {
 
     final static public int boardSize = 8;
     public static List<Spot> allSpots = new ArrayList<>();
@@ -79,8 +79,8 @@ public class ChessBoard {
                     boolean[][] tempQueenMoves;
                     tempQueenMoves = currentSpot.getPiece().checkStraightMovement(currentSpot);
                     allPossibleMoves = currentSpot.getPiece().checkDiagonalMovement(currentSpot);
-                    for (int y = 0; y < ChessBoard.boardSize; y++) {
-                        for (int x = 0; x < ChessBoard.boardSize; x++) {
+                    for (int y = 0; y < Chessboard.boardSize; y++) {
+                        for (int x = 0; x < Chessboard.boardSize; x++) {
                             if (tempQueenMoves[x][y])
                                 allPossibleMoves[x][y] = true;
                         }
@@ -92,7 +92,7 @@ public class ChessBoard {
 
     public static void main(String[] args) {
 
-        ChessBoard chessBoard = new ChessBoard();
+        Chessboard chessBoard = new Chessboard();
         chessBoard.createSpots();
 
         for (int i = 0; i < 1; i++) {
