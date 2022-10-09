@@ -13,18 +13,15 @@ public class HelloApplication extends Application {
     public void start(Stage stage) {
         GridPane gridPane = new GridPane();
 
-        int squareNumber = 0;
         double size = 90;
         for (int i = 0; i < 8; i++) {
-            squareNumber++;
             for (int j = 0; j < 8; j++) {
                 Rectangle rectangle = new Rectangle(size,size,size,size);
-                if (squareNumber % 2 == 0)
+                if ((i + j) % 2 == 0)
                     rectangle.setFill(Color.WHITE);
                 else
                     rectangle.setFill(Color.BURLYWOOD);
                 gridPane.add(rectangle,j,i);
-                squareNumber++;
             }
         }
 

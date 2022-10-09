@@ -151,7 +151,6 @@ public class Piece {
             }
 
         }
-
         return possibleMoves;
     }
 
