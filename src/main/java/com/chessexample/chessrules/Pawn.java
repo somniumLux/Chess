@@ -6,4 +6,14 @@ public class Pawn extends Piece {
         super(1);
     }
 
+    private int alreadyMovedOnce = 0;
+
+    public int getAlreadyMovedOnce() {
+        return alreadyMovedOnce;
+    }
+
+    public void setAlreadyMovedOnce(int alreadyMovedOnce) {
+        this.alreadyMovedOnce = alreadyMovedOnce;
+    }
+
 }

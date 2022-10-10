@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 public class ChessMainScreen extends VBox {
 
     private Canvas canvas;
-    private Chessboard chessboard;
     static final double canvasWidth = 800, canvasHeight = 760;
     static final int tileWidth = 90, tileHeight = 90;
 
