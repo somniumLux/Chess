@@ -14,25 +14,18 @@ public class Chessboard {
         Piece queenPiece = new Queen();
         Piece bishopPiece = new Bishop();
         Piece pawnPiece = new Pawn();
+        Piece knightPiece = new Knight();
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot newSpot = new Spot(x,y);
-                if (x == 2 && y == 2) {
+                if (x == 4 && y == 5) {
                     newSpot.setPiece(queenPiece);
                     newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(true);
                 }
-                if (x == 5 && y == 5) {
+                if (x == 4 && y == 0) {
                     newSpot.setPiece(kingPiece);
                     newSpot.setHasPiece(true);
-                }
-                if (x == 3 && y == 5) {
-                    newSpot.setPiece(bishopPiece);
-                    newSpot.setHasPiece(true);
-                }
-                if (x == 1 && y == 6) {
-                    newSpot.setPiece(pawnPiece);
-                    newSpot.setHasPiece(true);
-                    newSpot.getPiece().setWhite(false);
                 }
                 allSpots.add(newSpot);
             }
@@ -75,17 +68,10 @@ public class Chessboard {
     private void showPossibleMoves() {
         for (Spot currentSpot : allSpots) {
             if (currentSpot.hasPiece()) {
-                if (currentSpot.getPiece() instanceof Queen) {
-                    boolean[][] tempQueenMoves;
-                    tempQueenMoves = currentSpot.getPiece().checkStraightMovement(currentSpot);
-                    allPossibleMoves = currentSpot.getPiece().checkDiagonalMovement(currentSpot);
-                    for (int y = 0; y < Chessboard.boardSize; y++) {
-                        for (int x = 0; x < Chessboard.boardSize; x++) {
-                            if (tempQueenMoves[x][y])
-                                allPossibleMoves[x][y] = true;
-                        }
-                    }
-                }
+                if (currentSpot.getPiece() instanceof Queen)
+                    allPossibleMoves = currentSpot.getPiece().checkQueensMovement(currentSpot);
+                if (currentSpot.getPiece() instanceof Knight)
+                    allPossibleMoves = currentSpot.getPiece().checkKnightsMovement(currentSpot);
             }
         }
     }
