@@ -10,74 +10,80 @@ public class Chessboard {
     static boolean[][] allPossibleMoves = new boolean[boardSize][boardSize];
 
     public static void createSpots() {
-        Piece pawnPiece = new Pawn();
-        Piece kingPiece = new King();
-        Piece queenPiece = new Queen();
-        Piece bishopPiece = new Bishop();
-        Piece rookPiece = new Rook();
-        Piece knightPiece = new Knight();
+        Piece blackPawn = new Pawn();
+        Piece whitePawn = new Pawn();
+        Piece blackKing = new King();
+        Piece whiteKing = new King();
+        Piece blackQueen = new Queen();
+        Piece whiteQueen = new Queen();
+        Piece blackBishop = new Bishop();
+        Piece whiteBishop = new Bishop();
+        Piece blackRook = new Rook();
+        Piece whiteRook = new Rook();
+        Piece blackKnight = new Knight();
+        Piece whiteKnight = new Knight();
 
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot newSpot = new Spot(x,y);
 
                 if (y == 1) {
-                    newSpot.setPiece(pawnPiece);
+                    newSpot.setPiece(blackPawn);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(false);
                 }
                 if (y == 6) {
-                    newSpot.setPiece(pawnPiece);
+                    newSpot.setPiece(whitePawn);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }
                 if (x == 4 && y == 0) {
-                    newSpot.setPiece(kingPiece);
+                    newSpot.setPiece(blackKing);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(false);
                 }
                 if (x == 4 && y == 7) {
-                    newSpot.setPiece(kingPiece);
+                    newSpot.setPiece(whiteKing);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }
                 if (x == 3 && y == 0) {
-                    newSpot.setPiece(queenPiece);
+                    newSpot.setPiece(blackQueen);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(false);
                 }
                 if (x == 3 && y == 7) {
-                    newSpot.setPiece(queenPiece);
+                    newSpot.setPiece(whiteQueen);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }
                 if ((x == 0 || x == 7) && y == 0) {
-                    newSpot.setPiece(rookPiece);
+                    newSpot.setPiece(blackRook);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(false);
                 }
                 if ((x == 0 || x == 7) && y == 7) {
-                    newSpot.setPiece(rookPiece);
+                    newSpot.setPiece(whiteRook);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }
                 if ((x == 1 || x == 6) && y == 0) {
-                    newSpot.setPiece(knightPiece);
+                    newSpot.setPiece(blackKnight);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(false);
                 }
                 if ((x == 1 || x == 6) && y == 7) {
-                    newSpot.setPiece(knightPiece);
+                    newSpot.setPiece(whiteKnight);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }
                 if ((x == 2 || x == 5) && y == 0) {
-                    newSpot.setPiece(bishopPiece);
+                    newSpot.setPiece(blackBishop);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(false);
                 }
                 if ((x == 2 || x == 5) && y == 7) {
-                    newSpot.setPiece(bishopPiece);
+                    newSpot.setPiece(whiteBishop);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }

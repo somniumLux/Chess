@@ -2,7 +2,7 @@ package com.chessexample.chessrules;
 
 public class Piece {
 
-    private boolean isWhite = false;
+    private boolean isWhite;
     private boolean isKilled = false;
 
     public boolean isWhite() {
