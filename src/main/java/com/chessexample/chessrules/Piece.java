@@ -30,8 +30,6 @@ public class Piece {
         isKilled = killed;
     }
 
-    // TODO add checking if spot already has a piece (added only to diagonalMovement for now)
-
     /*This method returns value 0 if the piece's path is unobstructed. If it's
     * obstructed by an enemy piece, it returns 1 and -1 if it's obstructed by
     * a friendly piece or enemy king*/
@@ -202,6 +200,7 @@ public class Piece {
     }
 
     // TODO add "en passant" to checkPawnMovement method
+    // TODO add pawn promotion
     public boolean[][] checkPawnMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = startingSpot.getPositionX(), posY = startingSpot.getPositionY();

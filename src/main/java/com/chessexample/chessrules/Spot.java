@@ -44,4 +44,5 @@ public class Spot {
     public void setHasPiece(boolean hasPiece) {
         this.hasPiece = hasPiece;
     }
+
 }

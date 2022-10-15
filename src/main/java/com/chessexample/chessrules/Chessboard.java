@@ -10,22 +10,19 @@ public class Chessboard {
     static boolean[][] allPossibleMoves = new boolean[boardSize][boardSize];
 
     public void createSpots() {
-        Piece kingPiece = new King();
-        Piece queenPiece = new Queen();
-        Piece bishopPiece = new Bishop();
         Piece pawnPiece = new Pawn();
-        Piece knightPiece = new Knight();
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot newSpot = new Spot(x,y);
-                if (x == 4 && y == 5) {
-                    newSpot.setPiece(queenPiece);
+                if (y == 1) {
+                    newSpot.setPiece(pawnPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
+                }
+                if (y == 6) {
+                    newSpot.setPiece(pawnPiece);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
-                }
-                if (x == 4 && y == 0) {
-                    newSpot.setPiece(kingPiece);
-                    newSpot.setHasPiece(true);
                 }
                 allSpots.add(newSpot);
             }
