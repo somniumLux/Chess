@@ -9,11 +9,18 @@ public class Chessboard {
     public static List<Spot> allSpots = new ArrayList<>();
     static boolean[][] allPossibleMoves = new boolean[boardSize][boardSize];
 
-    public void createSpots() {
+    public static void createSpots() {
         Piece pawnPiece = new Pawn();
+        Piece kingPiece = new King();
+        Piece queenPiece = new Queen();
+        Piece bishopPiece = new Bishop();
+        Piece rookPiece = new Rook();
+        Piece knightPiece = new Knight();
+
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot newSpot = new Spot(x,y);
+
                 if (y == 1) {
                     newSpot.setPiece(pawnPiece);
                     newSpot.setHasPiece(true);
@@ -21,6 +28,56 @@ public class Chessboard {
                 }
                 if (y == 6) {
                     newSpot.setPiece(pawnPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(true);
+                }
+                if (x == 4 && y == 0) {
+                    newSpot.setPiece(kingPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
+                }
+                if (x == 4 && y == 7) {
+                    newSpot.setPiece(kingPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(true);
+                }
+                if (x == 3 && y == 0) {
+                    newSpot.setPiece(queenPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
+                }
+                if (x == 3 && y == 7) {
+                    newSpot.setPiece(queenPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(true);
+                }
+                if ((x == 0 || x == 7) && y == 0) {
+                    newSpot.setPiece(rookPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
+                }
+                if ((x == 0 || x == 7) && y == 7) {
+                    newSpot.setPiece(rookPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(true);
+                }
+                if ((x == 1 || x == 6) && y == 0) {
+                    newSpot.setPiece(knightPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
+                }
+                if ((x == 1 || x == 6) && y == 7) {
+                    newSpot.setPiece(knightPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(true);
+                }
+                if ((x == 2 || x == 5) && y == 0) {
+                    newSpot.setPiece(bishopPiece);
+                    newSpot.setHasPiece(true);
+                    newSpot.getPiece().setWhite(false);
+                }
+                if ((x == 2 || x == 5) && y == 7) {
+                    newSpot.setPiece(bishopPiece);
                     newSpot.setHasPiece(true);
                     newSpot.getPiece().setWhite(true);
                 }
@@ -67,8 +124,6 @@ public class Chessboard {
             if (currentSpot.hasPiece()) {
                 if (currentSpot.getPiece() instanceof Queen)
                     allPossibleMoves = currentSpot.getPiece().checkQueensMovement(currentSpot);
-                if (currentSpot.getPiece() instanceof Knight)
-                    allPossibleMoves = currentSpot.getPiece().checkKnightsMovement(currentSpot);
             }
         }
     }
@@ -76,7 +131,7 @@ public class Chessboard {
     public static void main(String[] args) {
 
         Chessboard chessBoard = new Chessboard();
-        chessBoard.createSpots();
+        createSpots();
 
         for (int i = 0; i < 1; i++) {
             System.out.println("Print board:");

@@ -1,11 +1,15 @@
 package com.chessexample.chessgraphics;
 
 import com.chessexample.chessrules.Chessboard;
+import com.chessexample.chessrules.Piece;
+import com.chessexample.chessrules.Spot;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
+import static com.chessexample.chessgraphics.ImageResource.findImage;
 
 public class ChessMainScreen extends VBox {
 
@@ -15,8 +19,10 @@ public class ChessMainScreen extends VBox {
 
     public ChessMainScreen() {
         this.canvas = new Canvas(canvasWidth, canvasHeight);
-        this.getChildren().addAll(this.canvas, ImageResource.blackPawnImageView);
+        this.getChildren().addAll(this.canvas);
         this.canvas.setOnMousePressed(this::onMousePressed);
+
+        Chessboard.createSpots();
     }
 
     private void onMousePressed(MouseEvent event) {
@@ -36,32 +42,15 @@ public class ChessMainScreen extends VBox {
                     g.setFill(Color.BEIGE);
                 g.fillRect(x, y, tileSize, tileSize);
 
-                if (y == tileSize)
-                    g.drawImage(ImageResource.blackPawnImageView.getImage(), x, y);
-                if ((x == 0 || x == tileSize*7) && y == 0)
-                    g.drawImage(ImageResource.blackRookImageView.getImage(), x, y);
-                if ((x == tileSize || x == tileSize*6) && y == 0)
-                    g.drawImage(ImageResource.blackKnightImageView.getImage(), x, y);
-                if ((x == tileSize*2 || x == tileSize*5) && y == 0)
-                    g.drawImage(ImageResource.blackBishopImageView.getImage(), x, y);
-                if (x == tileSize*3 && y == 0)
-                    g.drawImage(ImageResource.blackQueenImageView.getImage(), x, y);
-                if (x == tileSize*4 && y == 0)
-                    g.drawImage(ImageResource.blackKingImageView.getImage(), x, y);
-
-                if (y == 6*tileSize)
-                    g.drawImage(ImageResource.whitePawnImageView.getImage(), x, y);
-                if ((x == 0 || x == tileSize*7) && y == tileSize*7)
-                    g.drawImage(ImageResource.whiteRookImageView.getImage(), x, y);
-                if ((x == tileSize || x == tileSize*6) && y == tileSize*7)
-                    g.drawImage(ImageResource.whiteKnightImageView.getImage(), x, y);
-                if ((x == tileSize*2 || x == tileSize*5) && y == tileSize*7)
-                    g.drawImage(ImageResource.whiteBishopImageView.getImage(), x, y);
-                if (x == tileSize*3 && y == tileSize*7)
-                    g.drawImage(ImageResource.whiteQueenImageView.getImage(), x, y);
-                if (x == tileSize*4 && y == tileSize*7)
-                    g.drawImage(ImageResource.whiteKingImageView.getImage(), x, y);
-
+                Piece piece = new Piece();
+                int posx = x/tileSize, posy = y/tileSize;
+                for (Spot spot : Chessboard.allSpots) {
+                    if (spot.hasPiece()) {
+                        if (spot.getPositionX() == posx && spot.getPositionY() == posy)
+                            piece = spot.getPiece();
+                    }
+                }
+                g.drawImage(findImage(piece), x, y);
                 xCounter++;
             }
             yCounter++;

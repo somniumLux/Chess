@@ -4,15 +4,6 @@ public class Piece {
 
     private boolean isWhite = false;
     private boolean isKilled = false;
-    private final int maxMovementDistance;
-
-    public Piece(int maxMovementDistance) {
-        this.maxMovementDistance = maxMovementDistance;
-    }
-
-    protected int getMaxMovementDistance() {
-        return maxMovementDistance;
-    }
 
     public boolean isWhite() {
         return isWhite;
