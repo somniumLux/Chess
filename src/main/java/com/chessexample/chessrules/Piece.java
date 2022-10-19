@@ -4,6 +4,7 @@ public class Piece {
 
     private boolean isWhite;
     private boolean isKilled = false;
+    private boolean hasMovedOnce = false;
 
     public boolean isWhite() {
         return isWhite;
@@ -19,6 +20,14 @@ public class Piece {
 
     public void setKilled(boolean killed) {
         isKilled = killed;
+    }
+
+    public boolean hasMovedOnce() {
+        return hasMovedOnce;
+    }
+
+    public void setHasMovedOnce(boolean hasMovedOnce) {
+        this.hasMovedOnce = hasMovedOnce;
     }
 
     /*This method returns value 0 if the piece's path is unobstructed. If it's
@@ -190,14 +199,18 @@ public class Piece {
         return possibleMoves;
     }
 
-    // TODO add "en passant" to checkPawnMovement method
+    // TODO add "en passant" to checkPawnMovement() method
     // TODO add pawn promotion
     public boolean[][] checkPawnMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = startingSpot.getPositionX(), posY = startingSpot.getPositionY();
 
-        if (startingSpot.getPiece().isWhite)
-            possibleMoves[posX][posY + 1] = true;
+        if (startingSpot.getPiece().isWhite) {
+            if (!startingSpot.getPiece().hasMovedOnce)
+                possibleMoves[posX][posY - 2] = true;
+            else
+                possibleMoves[posX][posY - 1] = true;
+        }
 
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY + 1) {
@@ -213,7 +226,11 @@ public class Piece {
             }
         }
         if (!startingSpot.getPiece().isWhite)
-            possibleMoves[posX][posY - 1] = true;
+            if (!startingSpot.getPiece().hasMovedOnce)
+                possibleMoves[posX][posY + 2] = true;
+            else
+                possibleMoves[posX][posY + 1] = true;
+
         // checking if black pawn can eat
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY - 1) {

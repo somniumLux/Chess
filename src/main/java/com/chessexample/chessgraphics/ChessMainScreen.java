@@ -25,33 +25,41 @@ public class ChessMainScreen extends VBox {
         Chessboard.createSpots();
     }
 
+    // TODO draw possible moves on board when mouse is pressed on piece
     private void onMousePressed(MouseEvent event) {
         double x = event.getX(), y = event.getY();
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         System.out.println("x: " + mouseX + ", y: " + mouseY);
+        Spot spot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
+        System.out.println(spot);
+
+        assert spot != null;
+        System.out.println(spot.getPiece());
+
+        Chessboard.showPossibleMoves(spot);
     }
 
+    // TODO correct colouring of possible moves to yellow
     public void drawBoard() {
         GraphicsContext g = this.canvas.getGraphicsContext2D();
         int xCounter = 0, yCounter = 0;
         for (int y = 0; y < tileSize * Chessboard.boardSize; y += tileSize) {
             for (int x = 0; x < tileSize * Chessboard.boardSize; x += tileSize) {
-                if ((xCounter + yCounter) % 2 == 0)
+                if (Chessboard.allPossibleMoves[x / tileSize][y / tileSize])
+                    g.setFill(Color.YELLOW);
+                else if ((xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.BURLYWOOD);
                 else
                     g.setFill(Color.BEIGE);
                 g.fillRect(x, y, tileSize, tileSize);
-
-                Piece piece = new Piece();
-                int posx = x/tileSize, posy = y/tileSize;
-                for (Spot spot : Chessboard.allSpots) {
-                    if (spot.hasPiece()) {
-                        if (spot.getPositionX() == posx && spot.getPositionY() == posy)
-                            piece = spot.getPiece();
-                    }
-                }
-                g.drawImage(findImage(piece), x, y);
                 xCounter++;
+
+                int posx = x / tileSize, posy = y / tileSize;
+                Spot spot = Chessboard.checkSpot(posx, posy);
+                assert spot != null;
+                Piece piece = spot.getPiece();
+
+                g.drawImage(findImage(piece), x, y);
             }
             yCounter++;
             g.setFill(Color.BURLYWOOD);
