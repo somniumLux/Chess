@@ -31,8 +31,8 @@ public class Piece {
     }
 
     /*This method returns value 0 if the piece's path is unobstructed. If it's
-    * obstructed by an enemy piece, it returns 1 and -1 if it's obstructed by
-    * a friendly piece or enemy king*/
+     * obstructed by an enemy piece, it returns 1 and -1 if it's obstructed by
+     * a friendly piece or enemy king*/
     private int canMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.allSpots.get(0);
         for (Spot spot : Chessboard.allSpots) {
@@ -49,10 +49,13 @@ public class Piece {
         return -1;
     }
 
+    // TODO add threatened spots and update checkKingsMovement()
     public boolean[][] checkKingsMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         for (int y = startingSpot.getPositionY() - 1; y <= startingSpot.getPositionY() + 1; y++) {
             for (int x = startingSpot.getPositionX() - 1; x <= startingSpot.getPositionX() + 1; x++) {
+                if (canMoveToSpot(startingSpot.getPiece(), x,y) != 0)
+                    continue;
                 try {
                     possibleMoves[x][y] = x != startingSpot.getPositionX() || y != startingSpot.getPositionY();
                 } catch (Exception e) {
@@ -206,8 +209,10 @@ public class Piece {
         int posX = startingSpot.getPositionX(), posY = startingSpot.getPositionY();
 
         if (startingSpot.getPiece().isWhite) {
-            if (!startingSpot.getPiece().hasMovedOnce)
+            if (!startingSpot.getPiece().hasMovedOnce) {
+                possibleMoves[posX][posY - 1] = true;
                 possibleMoves[posX][posY - 2] = true;
+            }
             else
                 possibleMoves[posX][posY - 1] = true;
         }
@@ -215,7 +220,7 @@ public class Piece {
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY + 1) {
                 if (spotInBoard.hasPiece()) {
-                    if (!spotInBoard.getPiece().isWhite) {
+                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite) {
                         try {
                             possibleMoves[spotInBoard.getPositionX()][spotInBoard.getPositionY()] = true;
                         } catch (Exception e) {
@@ -226,8 +231,10 @@ public class Piece {
             }
         }
         if (!startingSpot.getPiece().isWhite)
-            if (!startingSpot.getPiece().hasMovedOnce)
+            if (!startingSpot.getPiece().hasMovedOnce) {
+                possibleMoves[posX][posY + 1] = true;
                 possibleMoves[posX][posY + 2] = true;
+            }
             else
                 possibleMoves[posX][posY + 1] = true;
 
@@ -235,7 +242,7 @@ public class Piece {
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY - 1) {
                 if (spotInBoard.hasPiece()) {
-                    if (spotInBoard.getPiece().isWhite) {
+                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite) {
                         try {
                             possibleMoves[spotInBoard.getPositionX()][spotInBoard.getPositionY()] = true;
                         } catch (Exception e) {
@@ -254,6 +261,8 @@ public class Piece {
 
         for (int y = 0; y < Chessboard.boardSize; y++) {
             for (int x = 0; x < Chessboard.boardSize; x++) {
+                if (canMoveToSpot(startingSpot.getPiece(), x, y) != 0)
+                    continue;
                 try {
                     if (y == posY + 2 && x == posX + 1)
                         possibleMoves[x][y] = true;

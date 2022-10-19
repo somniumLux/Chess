@@ -10,14 +10,7 @@ public class Chessboard {
     public static boolean[][] allPossibleMoves = new boolean[boardSize][boardSize];
 
     public static void main(String[] args) {
-
-        Chessboard chessBoard = new Chessboard();
         createSpots();
-
-        for (int i = 0; i < 1; i++) {
-            System.out.println("Print board:");
-            chessBoard.printBoard();
-        }
     }
 
     public static void createSpots() {
@@ -107,40 +100,7 @@ public class Chessboard {
             if (spot.getPositionX() == x && spot.getPositionY() == y)
                 return spot;
         }
-        return null;
-    }
-
-    public void printBoard() {
-        int atIndex = 0;
-        System.out.println("---");
-        for (int y = 0; y < boardSize; y++) {
-            StringBuilder line = new StringBuilder("|");
-            for (int x = 0; x < boardSize; x++) {
-                if (allSpots.get(atIndex++).hasPiece())
-                    line.append("*");
-                else
-                    line.append(".");
-            }
-            line.append("|");
-            System.out.println(line);
-        }
-        System.out.println("---");
-    }
-
-    public void printBoardWithMoves() {
-        System.out.println("---");
-        for (int y = 0; y < boardSize; y++) {
-            StringBuilder line = new StringBuilder("|");
-            for (int x = 0; x < boardSize; x++) {
-                if (allPossibleMoves[x][y])
-                    line.append(";");
-                else
-                    line.append(".");
-            }
-            line.append("|");
-            System.out.println(line);
-        }
-        System.out.println("---");
+        return Chessboard.allSpots.get(0);
     }
 
     public static void showPossibleMoves(Spot spot) {
@@ -164,6 +124,14 @@ public class Chessboard {
                 allPossibleMoves = spot.getPiece().checkQueensMovement(spot);
             else if (spot.getPiece() instanceof King)
                 allPossibleMoves = spot.getPiece().checkKingsMovement(spot);
+        }
+    }
+
+    public static void eraseAllPossibleMoves () {
+        for (int y = 0; y < Chessboard.boardSize; y++) {
+            for (int x = 0; x < Chessboard.boardSize; x++) {
+                allPossibleMoves[x][y] = false;
+            }
         }
     }
 }
