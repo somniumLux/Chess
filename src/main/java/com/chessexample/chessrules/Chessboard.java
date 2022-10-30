@@ -7,11 +7,7 @@ public class Chessboard {
 
     final static public int boardSize = 8;
     public static List<Spot> allSpots = new ArrayList<>();
-    public static boolean[][] allPossibleMoves = new boolean[boardSize][boardSize];
-
-    public static void main(String[] args) {
-        createSpots();
-    }
+    public static boolean[][] allMoves = new boolean[boardSize][boardSize];
 
     public static void createSpots() {
         for (int y = 0; y < boardSize; y++) {
@@ -103,34 +99,35 @@ public class Chessboard {
         return Chessboard.allSpots.get(0);
     }
 
+    // TODO add spots with enemy pieces
     public static void showPossibleMoves(Spot spot) {
         if (!spot.hasPiece()) {
             for (int x = 0; x < Chessboard.boardSize; x++) {
                 for (int y = 0; y < Chessboard.boardSize; y++) {
-                    allPossibleMoves[x][y] = false;
+                    allMoves[x][y] = false;
                 }
             }
         }
         else {
             if (spot.getPiece() instanceof Pawn)
-                allPossibleMoves = spot.getPiece().checkPawnMovement(spot);
+                allMoves = spot.getPiece().checkPawnMovement(spot);
             else if (spot.getPiece() instanceof Knight)
-                allPossibleMoves = spot.getPiece().checkKnightsMovement(spot);
+                allMoves = spot.getPiece().checkKnightsMovement(spot);
             else if (spot.getPiece() instanceof Bishop)
-                allPossibleMoves = spot.getPiece().checkDiagonalMovement(spot);
+                allMoves = spot.getPiece().checkDiagonalMovement(spot);
             else if (spot.getPiece() instanceof Rook)
-                allPossibleMoves = spot.getPiece().checkStraightMovement(spot);
+                allMoves = spot.getPiece().checkStraightMovement(spot);
             else if (spot.getPiece() instanceof Queen)
-                allPossibleMoves = spot.getPiece().checkQueensMovement(spot);
+                allMoves = spot.getPiece().checkQueensMovement(spot);
             else if (spot.getPiece() instanceof King)
-                allPossibleMoves = spot.getPiece().checkKingsMovement(spot);
+                allMoves = spot.getPiece().checkKingsMovement(spot);
         }
     }
 
     public static void eraseAllPossibleMoves () {
         for (int y = 0; y < Chessboard.boardSize; y++) {
             for (int x = 0; x < Chessboard.boardSize; x++) {
-                allPossibleMoves[x][y] = false;
+                allMoves[x][y] = false;
             }
         }
     }

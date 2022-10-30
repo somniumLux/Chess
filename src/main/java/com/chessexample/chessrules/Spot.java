@@ -44,11 +44,32 @@ public class Spot {
         this.hasPiece = hasPiece;
     }
 
+    public boolean isHasPiece() {
+        return hasPiece;
+    }
+
     public boolean isSelected() {
         return isSelected;
     }
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spot spot = (Spot) o;
+        return positionX == spot.positionX && positionY == spot.positionY;
+    }
+
+    @Override
+    public String toString() {
+        return "Spot{" + " x = " + positionX +
+                ", y = " + positionY +
+                ", piece = " + piece +
+                ", hasPiece = " + hasPiece +
+                '}';
     }
 }

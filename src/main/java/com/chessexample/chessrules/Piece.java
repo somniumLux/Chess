@@ -49,7 +49,7 @@ public class Piece {
         return -1;
     }
 
-    // TODO add threatened spots and update checkKingsMovement()
+    // TODO add threatened spots and update checkKingsMovement() for checks
     public boolean[][] checkKingsMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         for (int y = startingSpot.getPositionY() - 1; y <= startingSpot.getPositionY() + 1; y++) {
@@ -202,7 +202,6 @@ public class Piece {
         return possibleMoves;
     }
 
-    // TODO add "en passant" to checkPawnMovement() method
     // TODO add pawn promotion
     public boolean[][] checkPawnMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
@@ -217,6 +216,7 @@ public class Piece {
                 possibleMoves[posX][posY - 1] = true;
         }
 
+        // TODO add "en passant"
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY + 1) {
                 if (spotInBoard.hasPiece()) {
