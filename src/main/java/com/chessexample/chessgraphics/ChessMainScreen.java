@@ -17,7 +17,7 @@ public class ChessMainScreen extends VBox {
     static final double canvasWidth = 800, canvasHeight = 760;
     static final int tileSize = 60;
 
-    private static Spot currentlySelectedSpot, lastClickedSPot;
+    private static Spot lastClickedSpot;
     private int mousePressCounter = 0;
 
     public ChessMainScreen() {
@@ -28,7 +28,7 @@ public class ChessMainScreen extends VBox {
         Chessboard.createSpots();
     }
 
-    // TODO finish implementation of moving a piece by clicking on a starting and then ending spot
+    // TODO fix empty spot bug
     private void onMousePressed(MouseEvent event) {
         double x = event.getX(), y = event.getY();
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
@@ -36,13 +36,23 @@ public class ChessMainScreen extends VBox {
         System.out.println(clickedSpot.toString());
 
         if (mousePressCounter == 0)
-            lastClickedSPot = clickedSpot;
+            lastClickedSpot = clickedSpot;
         mousePressCounter++;
 
-        if (clickedSpot != lastClickedSPot) {
-            lastClickedSPot.setSelected(false);
-            lastClickedSPot = clickedSpot;
+        if (!clickedSpot.hasPiece() && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
+            return;
+
+        boolean moveMade = false;
+        if (Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()]) {
+            clickedSpot.setPiece(lastClickedSpot.getPiece());
+            clickedSpot.setHasPiece(true);
+            lastClickedSpot.deletePiece();
+            moveMade = true;
         }
+
+        if (clickedSpot != lastClickedSpot && clickedSpot.hasPiece())
+            lastClickedSpot = clickedSpot;
+
         if (clickedSpot.isSelected()) {
             clickedSpot.setSelected(false);
             Chessboard.eraseAllPossibleMoves();
@@ -52,6 +62,8 @@ public class ChessMainScreen extends VBox {
 
         clickedSpot.setSelected(true);
         Chessboard.showPossibleMoves(clickedSpot);
+        if (moveMade)
+            Chessboard.eraseAllPossibleMoves();
         drawBoard();
     }
 

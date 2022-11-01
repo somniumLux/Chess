@@ -56,6 +56,11 @@ public class Spot {
         isSelected = selected;
     }
 
+    public void deletePiece() {
+        piece = null;
+        this.setHasPiece(false);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
