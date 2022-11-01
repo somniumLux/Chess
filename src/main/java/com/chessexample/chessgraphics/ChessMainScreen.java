@@ -29,8 +29,8 @@ public class ChessMainScreen extends VBox {
     }
 
     // TODO fix empty spot bug
-    private void onMousePressed(MouseEvent event) {
-        double x = event.getX(), y = event.getY();
+    private void onMousePressed(MouseEvent mouseEvent) {
+        double x = mouseEvent.getX(), y = mouseEvent.getY();
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
         System.out.println(clickedSpot.toString());
@@ -73,7 +73,7 @@ public class ChessMainScreen extends VBox {
         for (int y = 0; y < tileSize * Chessboard.boardSize; y += tileSize) {
             for (int x = 0; x < tileSize * Chessboard.boardSize; x += tileSize) {
                 if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
-                    g.setFill(Color.LIGHTGREEN);
+                    g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
                     g.setFill(Color.GREENYELLOW);
                 else if ((xCounter + yCounter) % 2 == 0)

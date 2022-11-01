@@ -2,9 +2,7 @@ package com.chessexample.chessrules;
 
 public class Piece {
 
-    private boolean isWhite;
-    private boolean isKilled = false;
-    private boolean hasMovedOnce = false;
+    private boolean isWhite, isKilled = false;
 
     public boolean isWhite() {
         return isWhite;
@@ -20,14 +18,6 @@ public class Piece {
 
     public void setKilled(boolean killed) {
         isKilled = killed;
-    }
-
-    public boolean hasMovedOnce() {
-        return hasMovedOnce;
-    }
-
-    public void setHasMovedOnce(boolean hasMovedOnce) {
-        this.hasMovedOnce = hasMovedOnce;
     }
 
     /*This method returns value 0 if the piece's path is unobstructed. If it's
