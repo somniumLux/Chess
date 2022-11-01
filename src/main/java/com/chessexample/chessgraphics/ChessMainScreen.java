@@ -61,7 +61,7 @@ public class ChessMainScreen extends VBox {
         }
 
         clickedSpot.setSelected(true);
-        Chessboard.showPossibleMoves(clickedSpot);
+        Chessboard.allMoves = Chessboard.showPossibleMoves(clickedSpot);
         if (moveMade)
             Chessboard.eraseAllPossibleMoves();
         drawBoard();

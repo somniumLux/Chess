@@ -20,8 +20,8 @@ public class Piece {
         isKilled = killed;
     }
 
-    /*This method returns value 0 if the piece's path is unobstructed. If it's
-     * obstructed by an enemy piece, it returns 1 and -1 if it's obstructed by
+    /*This method returns value 0 if the piece's path is unobstructed. If the spot
+     * is threatened by an enemy piece, it returns 1 and -1 if it's obstructed by
      * a friendly piece or enemy king*/
     private int canMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.allSpots.get(0);
@@ -30,8 +30,15 @@ public class Piece {
                 checkedSpot = spot;
             }
         }
+        if (checkedSpot.isThreatened())
+            return 1;
         if (!checkedSpot.hasPiece())
             return 0;
+        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite) {
+            if (checkedSpot.getPiece() instanceof King)
+                return 1;
+            return 0;
+        }
         if (checkedSpot.hasPiece()) {
             if (checkedSpot.getPiece().isWhite != piece.isWhite && !(checkedSpot.getPiece() instanceof King))
                 return 1;
