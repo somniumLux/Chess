@@ -203,24 +203,26 @@ public class Piece {
     }
 
     // TODO add pawn promotion
+    // TODO add "en passant"
     public boolean[][] checkPawnMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = startingSpot.getPositionX(), posY = startingSpot.getPositionY();
 
+        // white pawn's forward movement
         if (startingSpot.getPiece().isWhite) {
-            if (!startingSpot.getPiece().hasMovedOnce) {
+            if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 1).hasPiece())
                 possibleMoves[posX][posY - 1] = true;
-                possibleMoves[posX][posY - 2] = true;
-            }
-            else
-                possibleMoves[posX][posY - 1] = true;
-        }
 
-        // TODO add "en passant"
+            if (startingSpot.getPositionY() == 6) {
+                if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 2).hasPiece())
+                    possibleMoves[posX][posY - 2] = true;
+            }
+        }
+        // checking if white pawn can eat
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY + 1) {
                 if (spotInBoard.hasPiece()) {
-                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite) {
+                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite && !(spotInBoard.getPiece() instanceof King)) {
                         try {
                             possibleMoves[spotInBoard.getPositionX()][spotInBoard.getPositionY()] = true;
                         } catch (Exception e) {
@@ -230,19 +232,21 @@ public class Piece {
                 }
             }
         }
-        if (!startingSpot.getPiece().isWhite)
-            if (!startingSpot.getPiece().hasMovedOnce) {
-                possibleMoves[posX][posY + 1] = true;
-                possibleMoves[posX][posY + 2] = true;
-            }
-            else
+        // black pawn's forward movement
+        if (!startingSpot.getPiece().isWhite) {
+            if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 1).hasPiece())
                 possibleMoves[posX][posY + 1] = true;
 
+            if (startingSpot.getPositionY() == 1) {
+                if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 2).hasPiece())
+                    possibleMoves[posX][posY + 2] = true;
+            }
+        }
         // checking if black pawn can eat
         for (Spot spotInBoard : Chessboard.allSpots) {
             if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY - 1) {
                 if (spotInBoard.hasPiece()) {
-                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite) {
+                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite && !(spotInBoard.getPiece() instanceof King)) {
                         try {
                             possibleMoves[spotInBoard.getPositionX()][spotInBoard.getPositionY()] = true;
                         } catch (Exception e) {
