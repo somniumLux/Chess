@@ -100,7 +100,6 @@ public class Chessboard {
         return Chessboard.allSpots.get(0);
     }
 
-    // TODO add spots with enemy pieces
     public static boolean[][] showPossibleMoves(Spot spot) {
         boolean[][] spots = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         if (!spot.hasPiece()) {
@@ -136,19 +135,24 @@ public class Chessboard {
     }
 
     // TODO finish, test and implement with turn base
-    public void checkAllThreatenedSpots() {
-        boolean[][] threatenedSpots = new boolean[boardSize][boardSize];
+    public static void checkAllThreatenedSpots() {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++)
+                allThreatenedSpots[x][y] = false;
+        }
         for (Spot spot : allSpots) {
+            boolean[][] threatenedSpots = new boolean[boardSize][boardSize];
             if (spot.hasPiece()) {
                 if (spot.getPiece().isWhite())
                     threatenedSpots = showPossibleMoves(spot);
             }
-            for (int y = 0; y < boardSize; y++) {
-                for (int x = 0; x < boardSize; x++) {
-                    if (threatenedSpots[x][y])
-                        allThreatenedSpots[x][y] = true;
+            if (spot.hasPiece()) {
+                for (int y = 0; y < boardSize; y++) {
+                    for (int x = 0; x < boardSize; x++) {
+                        if (threatenedSpots[x][y])
+                            allThreatenedSpots[x][y] = true;
+                    }
                 }
-
             }
         }
     }

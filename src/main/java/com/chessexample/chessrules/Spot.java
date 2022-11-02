@@ -5,7 +5,7 @@ public class Spot {
     private Piece piece;
     private final int positionX;
     private final int positionY;
-    private boolean isThreatened, hasPiece, isSelected;
+    private boolean hasPiece, isSelected, isThreatened;
 
     public Spot(int positionX, int positionY) {
         this.positionX = positionX;

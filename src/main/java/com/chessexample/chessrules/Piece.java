@@ -20,16 +20,17 @@ public class Piece {
         isKilled = killed;
     }
 
-    /*This method returns value 0 if the piece's path is unobstructed. If the spot
+    /*This method returns value 0 if the king's piece path is unobstructed. If the spot
      * is threatened by an enemy piece, it returns 1 and -1 if it's obstructed by
      * a friendly piece or enemy king*/
-    private int canMoveToSpot(Piece piece, int posX, int posY) {
+    private int canKingMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.allSpots.get(0);
         for (Spot spot : Chessboard.allSpots) {
             if (spot.getPositionX() == posX && spot.getPositionY() == posY) {
                 checkedSpot = spot;
             }
         }
+        //if (Chessboard.allThreatenedSpots[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
         if (checkedSpot.isThreatened())
             return 1;
         if (!checkedSpot.hasPiece())
@@ -46,12 +47,36 @@ public class Piece {
         return -1;
     }
 
-    // TODO add threatened spots and update checkKingsMovement() for checks
+    // TODO pieces can still eat the enemy king!!!
+    private int canMoveToSpot(Piece piece, int posX, int posY) {
+        Spot checkedSpot = Chessboard.allSpots.get(0);
+        for (Spot spot : Chessboard.allSpots) {
+            if (spot.getPositionX() == posX && spot.getPositionY() == posY) {
+                checkedSpot = spot;
+            }
+        }
+        if (!checkedSpot.hasPiece())
+            return 0;
+        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite) {
+            return 1;
+        }
+        if (checkedSpot.hasPiece()) {
+            if (checkedSpot.getPiece() instanceof King)
+                return -1;
+        }
+         if (checkedSpot.hasPiece()) {
+            if (checkedSpot.getPiece().isWhite == piece.isWhite)
+                return -1;
+        }
+        return -1;
+    }
+
+    // TODO update checkKingsMovement() for checks
     public boolean[][] checkKingsMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         for (int y = startingSpot.getPositionY() - 1; y <= startingSpot.getPositionY() + 1; y++) {
             for (int x = startingSpot.getPositionX() - 1; x <= startingSpot.getPositionX() + 1; x++) {
-                if (canMoveToSpot(startingSpot.getPiece(), x,y) != 0)
+                if (canKingMoveToSpot(startingSpot.getPiece(), x,y) != 0)
                     continue;
                 try {
                     possibleMoves[x][y] = x != startingSpot.getPositionX() || y != startingSpot.getPositionY();

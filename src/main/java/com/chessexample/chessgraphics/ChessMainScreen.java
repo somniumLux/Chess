@@ -1,8 +1,6 @@
 package com.chessexample.chessgraphics;
 
-import com.chessexample.chessrules.Chessboard;
-import com.chessexample.chessrules.Piece;
-import com.chessexample.chessrules.Spot;
+import com.chessexample.chessrules.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +24,7 @@ public class ChessMainScreen extends VBox {
         this.canvas.setOnMousePressed(this::onMousePressed);
 
         Chessboard.createSpots();
+        Chessboard.checkAllThreatenedSpots();
     }
 
     // TODO fix empty spot bug
@@ -62,8 +61,10 @@ public class ChessMainScreen extends VBox {
 
         clickedSpot.setSelected(true);
         Chessboard.allMoves = Chessboard.showPossibleMoves(clickedSpot);
-        if (moveMade)
+        if (moveMade) {
             Chessboard.eraseAllPossibleMoves();
+            Chessboard.checkAllThreatenedSpots();
+        }
         drawBoard();
     }
 
@@ -72,6 +73,10 @@ public class ChessMainScreen extends VBox {
         int xCounter = 0, yCounter = 0;
         for (int y = 0; y < tileSize * Chessboard.boardSize; y += tileSize) {
             for (int x = 0; x < tileSize * Chessboard.boardSize; x += tileSize) {
+                /*if (Chessboard.allThreatenedSpots[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                    g.setFill(Color.DARKRED);
+                else if (Chessboard.allThreatenedSpots[x/tileSize][y/tileSize])
+                    g.setFill(Color.RED);*/
                 if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
