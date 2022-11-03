@@ -75,11 +75,15 @@ public class ChessMainScreen extends VBox {
         int xCounter = 0, yCounter = 0;
         for (int y = 0; y < tileSize * Chessboard.boardSize; y += tileSize) {
             for (int x = 0; x < tileSize * Chessboard.boardSize; x += tileSize) {
-                if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                /*if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.DARKRED);
                 else if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize])
-                    g.setFill(Color.RED);
-                else if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                    g.setFill(Color.RED);*/
+                /*if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                    g.setFill(Color.DARKRED);
+                else if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize])
+                    g.setFill(Color.RED);*/
+                if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
                     g.setFill(Color.GREENYELLOW);

@@ -292,8 +292,11 @@ public class Piece {
 
         for (int y = 0; y < Chessboard.boardSize; y++) {
             for (int x = 0; x < Chessboard.boardSize; x++) {
-                if (Chessboard.checkSpot(x,y).getPiece() instanceof King)
-                    continue;
+                Spot endingSpot = Chessboard.checkSpot(x,y);
+                if (endingSpot.hasPiece()) {
+                    if (endingSpot.getPiece() instanceof King || endingSpot.getPiece().isWhite == startingSpot.getPiece().isWhite)
+                        continue;
+                }
                 try {
                     if (y == posY + 2 && x == posX + 1)
                         possibleMoves[x][y] = true;
