@@ -30,10 +30,15 @@ public class Piece {
                 checkedSpot = spot;
             }
         }
-        //if (Chessboard.allThreatenedSpots[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
-        if (checkedSpot.isThreatened())
-            return 1;
-        if (!checkedSpot.hasPiece())
+        if (!piece.isWhite()) {
+            if (Chessboard.allThreatenedSpotsByWhite[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
+                return 1;
+        }
+        else {
+            if (Chessboard.allThreatenedSpotsByBlack[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
+                return 1;
+        }
+                if (!checkedSpot.hasPiece())
             return 0;
         if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite) {
             if (checkedSpot.getPiece() instanceof King)
@@ -81,7 +86,7 @@ public class Piece {
                 try {
                     possibleMoves[x][y] = x != startingSpot.getPositionX() || y != startingSpot.getPositionY();
                 } catch (Exception e) {
-                    System.out.println(e + "in checkKingsMovement");
+                    System.out.println(e + " in checkKingsMovement");
                 }
             }
         }
@@ -287,7 +292,7 @@ public class Piece {
 
         for (int y = 0; y < Chessboard.boardSize; y++) {
             for (int x = 0; x < Chessboard.boardSize; x++) {
-                if (canMoveToSpot(startingSpot.getPiece(), x, y) != 0)
+                if (Chessboard.checkSpot(x,y).getPiece() instanceof King)
                     continue;
                 try {
                     if (y == posY + 2 && x == posX + 1)

@@ -8,7 +8,8 @@ public class Chessboard {
     final static public int boardSize = 8;
     public static List<Spot> allSpots = new ArrayList<>();
     public static boolean[][] allMoves = new boolean[boardSize][boardSize];
-    public static boolean[][] allThreatenedSpots = new boolean[boardSize][boardSize];
+    public static boolean[][] allThreatenedSpotsByWhite = new boolean[boardSize][boardSize];
+    public static boolean[][] allThreatenedSpotsByBlack = new boolean[boardSize][boardSize];
 
     public static void createSpots() {
         for (int y = 0; y < boardSize; y++) {
@@ -135,22 +136,64 @@ public class Chessboard {
     }
 
     // TODO finish, test and implement with turn base
-    public static void checkAllThreatenedSpots() {
+    public static void checkAllThreatenedSpotsByWhite() {
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++)
-                allThreatenedSpots[x][y] = false;
+                allThreatenedSpotsByWhite[x][y] = false;
         }
         for (Spot spot : allSpots) {
             boolean[][] threatenedSpots = new boolean[boardSize][boardSize];
             if (spot.hasPiece()) {
-                if (spot.getPiece().isWhite())
-                    threatenedSpots = showPossibleMoves(spot);
+                if (spot.getPiece().isWhite()) {
+                    if (spot.getPiece() instanceof Pawn) {
+                        try {
+                            allThreatenedSpotsByWhite[spot.getPositionX() + 1][spot.getPositionY() - 1] = true;
+                            allThreatenedSpotsByWhite[spot.getPositionX() - 1][spot.getPositionY() - 1] = true;
+                        } catch (Exception e) {
+                            System.out.println(e + " in threatened spots by pawns");
+                        }
+                    }
+                    else
+                        threatenedSpots = showPossibleMoves(spot);
+                }
             }
             if (spot.hasPiece()) {
                 for (int y = 0; y < boardSize; y++) {
                     for (int x = 0; x < boardSize; x++) {
                         if (threatenedSpots[x][y])
-                            allThreatenedSpots[x][y] = true;
+                            allThreatenedSpotsByWhite[x][y] = true;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void checkAllThreatenedSpotsByBlack() {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++)
+                allThreatenedSpotsByBlack[x][y] = false;
+        }
+        for (Spot spot : allSpots) {
+            boolean[][] threatenedSpots = new boolean[boardSize][boardSize];
+            if (spot.hasPiece()) {
+                if (!spot.getPiece().isWhite()) {
+                    if (spot.getPiece() instanceof Pawn) {
+                        try {
+                            allThreatenedSpotsByBlack[spot.getPositionX() + 1][spot.getPositionY() + 1] = true;
+                            allThreatenedSpotsByBlack[spot.getPositionX() - 1][spot.getPositionY() + 1] = true;
+                        } catch (Exception e) {
+                            System.out.println(e + " in threatened spots by pawns");
+                        }
+                    }
+                    else
+                        threatenedSpots = showPossibleMoves(spot);
+                }
+            }
+            if (spot.hasPiece()) {
+                for (int y = 0; y < boardSize; y++) {
+                    for (int x = 0; x < boardSize; x++) {
+                        if (threatenedSpots[x][y])
+                            allThreatenedSpotsByBlack[x][y] = true;
                     }
                 }
             }
