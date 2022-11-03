@@ -52,7 +52,6 @@ public class Piece {
         return -1;
     }
 
-    // TODO pieces can still eat the enemy king!!!
     private int canMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.allSpots.get(0);
         for (Spot spot : Chessboard.allSpots) {
