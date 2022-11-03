@@ -236,7 +236,8 @@ public class Piece {
                 possibleMoves[posX][posY - 1] = true;
 
             if (startingSpot.getPositionY() == 6) {
-                if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 2).hasPiece())
+                if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 2).hasPiece()
+                        && !Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 1).hasPiece())
                     possibleMoves[posX][posY - 2] = true;
             }
         }
@@ -260,7 +261,8 @@ public class Piece {
                 possibleMoves[posX][posY + 1] = true;
 
             if (startingSpot.getPositionY() == 1) {
-                if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 2).hasPiece())
+                if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 2).hasPiece()
+                        && !Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 1).hasPiece())
                     possibleMoves[posX][posY + 2] = true;
             }
         }
