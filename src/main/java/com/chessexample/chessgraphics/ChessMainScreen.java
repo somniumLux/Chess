@@ -15,6 +15,8 @@ public class ChessMainScreen extends VBox {
     static final double canvasWidth = 800, canvasHeight = 760;
     static final int tileSize = 60;
 
+    static Player player1 = new Player(true);
+
     private static Spot lastClickedSpot;
     private int mousePressCounter = 0;
 
@@ -34,6 +36,14 @@ public class ChessMainScreen extends VBox {
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
         System.out.println(clickedSpot.toString());
+
+        // TODO fix turns
+        if (clickedSpot.hasPiece()) {
+            if (!clickedSpot.getPiece().isWhite() && player1.isHasTurn())
+                return;
+            if (clickedSpot.getPiece().isWhite() && !player1.isHasTurn())
+                return;
+        }
 
         if (mousePressCounter == 0)
             lastClickedSpot = clickedSpot;
@@ -66,6 +76,7 @@ public class ChessMainScreen extends VBox {
             Chessboard.eraseAllPossibleMoves();
             Chessboard.checkAllThreatenedSpotsByWhite();
             Chessboard.checkAllThreatenedSpotsByBlack();
+            player1.setHasTurn(!player1.isHasTurn());
         }
         drawBoard();
     }
