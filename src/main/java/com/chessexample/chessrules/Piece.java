@@ -62,13 +62,8 @@ public class Piece {
         }
         if (!checkedSpot.hasPiece())
             return 0;
-        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite) {
+        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite && !(checkedSpot.getPiece() instanceof King))
             return 1;
-        }
-        if (checkedSpot.hasPiece()) {
-            if (checkedSpot.getPiece() instanceof King)
-                return -1;
-        }
          if (checkedSpot.hasPiece()) {
             if (checkedSpot.getPiece().isWhite == piece.isWhite)
                 return -1;
