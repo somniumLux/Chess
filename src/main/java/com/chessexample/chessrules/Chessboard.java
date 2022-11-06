@@ -102,10 +102,10 @@ public class Chessboard {
     }
 
     public static boolean[][] showPossibleMoves(Spot spot) {
-        boolean[][] spots = new boolean[Chessboard.boardSize][Chessboard.boardSize];
+        boolean[][] spots = new boolean[boardSize][boardSize];
         if (!spot.hasPiece()) {
-            for (int x = 0; x < Chessboard.boardSize; x++) {
-                for (int y = 0; y < Chessboard.boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
+                for (int y = 0; y < boardSize; y++) {
                     spots[x][y] = false;
                 }
             }
@@ -128,14 +128,13 @@ public class Chessboard {
     }
 
     public static void eraseAllPossibleMoves () {
-        for (int y = 0; y < Chessboard.boardSize; y++) {
-            for (int x = 0; x < Chessboard.boardSize; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 allMoves[x][y] = false;
             }
         }
     }
 
-    // TODO finish, test and implement with turn base
     public static void checkAllThreatenedSpotsByWhite() {
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++)
