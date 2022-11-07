@@ -5,7 +5,7 @@ public class Spot {
     private Piece piece;
     private final int positionX;
     private final int positionY;
-    private boolean hasPiece, isSelected, isThreatened;
+    private boolean hasPiece, isSelected, isThreatenedByWhite, isThreatenedByBlack;
 
     public Spot(int positionX, int positionY) {
         this.positionX = positionX;
@@ -28,12 +28,20 @@ public class Spot {
         return positionY;
     }
 
-    public boolean isThreatened() {
-        return isThreatened;
+    public boolean isThreatenedByWhite() {
+        return isThreatenedByWhite;
     }
 
-    public void setThreatened(boolean threatened) {
-        isThreatened = threatened;
+    public void setThreatenedByWhite() {
+        isThreatenedByWhite = true;
+    }
+
+    public boolean isThreatenedByBlack() {
+        return isThreatenedByBlack;
+    }
+
+    public void setThreatenedByBlack() {
+        isThreatenedByBlack = true;
     }
 
     public boolean hasPiece() {

@@ -26,8 +26,10 @@ public class ChessMainScreen extends VBox {
         this.canvas.setOnMousePressed(this::onMousePressed);
 
         Chessboard.createSpots();
-        Chessboard.checkAllThreatenedSpotsByWhite();
-        Chessboard.checkAllThreatenedSpotsByBlack();
+        Chessboard.updateAllThreatenedSpots();
+
+        //Chessboard.updateThreatenedSpotsByWhite();
+        //Chessboard.updateThreatenedSpotsByBlack();
     }
 
     // TODO fix empty spot bug
@@ -75,8 +77,8 @@ public class ChessMainScreen extends VBox {
         Chessboard.allMoves = Chessboard.showPossibleMoves(clickedSpot);
         if (moveMade) {
             Chessboard.eraseAllPossibleMoves();
-            Chessboard.checkAllThreatenedSpotsByWhite();
-            Chessboard.checkAllThreatenedSpotsByBlack();
+            Chessboard.updateThreatenedSpotsByWhite();
+            Chessboard.updateThreatenedSpotsByBlack();
             whitePlayer.setHasTurn(!whitePlayer.isHasTurn());
         }
         drawBoard();
@@ -92,11 +94,6 @@ public class ChessMainScreen extends VBox {
                 Spot spot = Chessboard.checkSpot(posX, posY);
                 Piece piece = spot.getPiece();
 
-                /*if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
-                    g.setFill(Color.DARKRED);
-                else if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize])
-                    g.setFill(Color.RED);*/
-
                 if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
@@ -105,6 +102,17 @@ public class ChessMainScreen extends VBox {
                     g.setFill(Color.BURLYWOOD);
                 else
                     g.setFill(Color.BEIGE);
+
+                if (piece instanceof King && piece.isWhite() /*&& Chessboard.allThreatenedSpotsByBlack[posX][posY]*/) {
+                    System.out.println("x: " + posX);
+                    System.out.println("y: " + posY);
+                    System.out.println("Threatened: " + Chessboard.allThreatenedSpotsByBlack[posX][posY]);
+                    g.setFill(Color.ORANGE);
+                }
+                /*if (piece instanceof King && !piece.isWhite() && Chessboard.allThreatenedSpotsByWhite[posX][posY])
+                    g.setFill(Color.ORANGE);*/
+                if (Chessboard.allThreatenedSpotsByBlack[posX][posY])
+                    g.setFill(Color.RED);
 
                 g.fillRect(x, y, tileSize, tileSize);
                 xCounter++;
