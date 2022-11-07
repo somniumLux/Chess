@@ -15,7 +15,7 @@ public class ChessMainScreen extends VBox {
     static final double canvasWidth = 800, canvasHeight = 760;
     static final int tileSize = 60;
 
-    static Player player = new Player(true);
+    static Player whitePlayer = new Player(true);
 
     private static Spot lastClickedSpot;
     private int mousePressCounter = 0;
@@ -30,18 +30,19 @@ public class ChessMainScreen extends VBox {
         Chessboard.checkAllThreatenedSpotsByBlack();
     }
 
-    // TODO fix pieces cannot be eaten !!!
     // TODO fix empty spot bug
     private void onMousePressed(MouseEvent mouseEvent) {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
-        //System.out.println(clickedSpot.toString());
 
         if (clickedSpot.hasPiece()) {
-            if (!clickedSpot.getPiece().isWhite() && player.isHasTurn())
+            if (!clickedSpot.getPiece().isWhite() && whitePlayer.isHasTurn()
+                    && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
                 return;
-            if (clickedSpot.getPiece().isWhite() && !player.isHasTurn())
+
+            if (clickedSpot.getPiece().isWhite() && !whitePlayer.isHasTurn()
+                    && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
                 return;
         }
 
@@ -76,9 +77,8 @@ public class ChessMainScreen extends VBox {
             Chessboard.eraseAllPossibleMoves();
             Chessboard.checkAllThreatenedSpotsByWhite();
             Chessboard.checkAllThreatenedSpotsByBlack();
-            player.setHasTurn(!player.isHasTurn());
+            whitePlayer.setHasTurn(!whitePlayer.isHasTurn());
         }
-        System.out.println("Player1 has turn: " + player.isHasTurn());
         drawBoard();
     }
 

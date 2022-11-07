@@ -64,7 +64,7 @@ public class Piece {
         }
         if (!checkedSpot.hasPiece())
             return 0;
-        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite)
+        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite && !(checkedSpot.getPiece() instanceof King))
             return 1;
         if (checkedSpot.hasPiece()) {
             if (checkedSpot.getPiece().isWhite == piece.isWhite)
@@ -121,39 +121,31 @@ public class Piece {
 
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int y = posY + i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
             possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int y = posY - i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
             possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
             possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX - i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
             possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         possibleMoves[posX][posY] = false;
         return possibleMoves;
@@ -166,42 +158,34 @@ public class Piece {
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
             int y = posY + i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX - i;
             int y = posY - i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
             int y = posY - i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX - i;
             int y = posY + i;
-
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
             if (movementStatus != 0)
                 break;
-
         }
         return possibleMoves;
     }
