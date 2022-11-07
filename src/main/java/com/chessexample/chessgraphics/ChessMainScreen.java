@@ -15,7 +15,7 @@ public class ChessMainScreen extends VBox {
     static final double canvasWidth = 800, canvasHeight = 760;
     static final int tileSize = 60;
 
-    static Player player1 = new Player(true);
+    static Player whitePlayer = new Player(true);
 
     private static Spot lastClickedSpot;
     private int mousePressCounter = 0;
@@ -35,13 +35,14 @@ public class ChessMainScreen extends VBox {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
-        System.out.println(clickedSpot.toString());
 
-        // TODO fix turns
         if (clickedSpot.hasPiece()) {
-            if (!clickedSpot.getPiece().isWhite() && player1.isHasTurn())
+            if (!clickedSpot.getPiece().isWhite() && whitePlayer.isHasTurn()
+                    && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
                 return;
-            if (clickedSpot.getPiece().isWhite() && !player1.isHasTurn())
+
+            if (clickedSpot.getPiece().isWhite() && !whitePlayer.isHasTurn()
+                    && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
                 return;
         }
 
@@ -76,7 +77,7 @@ public class ChessMainScreen extends VBox {
             Chessboard.eraseAllPossibleMoves();
             Chessboard.checkAllThreatenedSpotsByWhite();
             Chessboard.checkAllThreatenedSpotsByBlack();
-            player1.setHasTurn(!player1.isHasTurn());
+            whitePlayer.setHasTurn(!whitePlayer.isHasTurn());
         }
         drawBoard();
     }
@@ -86,14 +87,16 @@ public class ChessMainScreen extends VBox {
         int xCounter = 0, yCounter = 0;
         for (int y = 0; y < tileSize * Chessboard.boardSize; y += tileSize) {
             for (int x = 0; x < tileSize * Chessboard.boardSize; x += tileSize) {
+
+                int posX = x / tileSize, posY = y / tileSize;
+                Spot spot = Chessboard.checkSpot(posX, posY);
+                Piece piece = spot.getPiece();
+
                 /*if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.DARKRED);
                 else if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize])
                     g.setFill(Color.RED);*/
-                /*if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
-                    g.setFill(Color.DARKRED);
-                else if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize])
-                    g.setFill(Color.RED);*/
+
                 if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
@@ -102,12 +105,9 @@ public class ChessMainScreen extends VBox {
                     g.setFill(Color.BURLYWOOD);
                 else
                     g.setFill(Color.BEIGE);
+
                 g.fillRect(x, y, tileSize, tileSize);
                 xCounter++;
-
-                int posx = x / tileSize, posy = y / tileSize;
-                Spot spot = Chessboard.checkSpot(posx, posy);
-                Piece piece = spot.getPiece();
 
                 g.drawImage(findImage(piece), x, y);
             }
