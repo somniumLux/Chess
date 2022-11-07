@@ -24,12 +24,8 @@ public class Piece {
      * is threatened by an enemy piece, it returns 1 and -1 if it's obstructed by
      * a friendly piece or enemy king*/
     private int canKingMoveToSpot(Piece piece, int posX, int posY) {
-        Spot checkedSpot = Chessboard.allSpots.get(0);
-        for (Spot spot : Chessboard.allSpots) {
-            if (spot.getPositionX() == posX && spot.getPositionY() == posY) {
-                checkedSpot = spot;
-            }
-        }
+        Spot checkedSpot = Chessboard.checkSpot(posX, posY);
+
         if (!piece.isWhite()) {
             if (Chessboard.allThreatenedSpotsByWhite[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
                 return 1;
@@ -56,12 +52,8 @@ public class Piece {
      * an enemy piece in the way, it returns 1 and -1 if it's obstructed by
      * a friendly piece or enemy king*/
     private int canMoveToSpot(Piece piece, int posX, int posY) {
-        Spot checkedSpot = Chessboard.allSpots.get(0);
-        for (Spot spot : Chessboard.allSpots) {
-            if (spot.getPositionX() == posX && spot.getPositionY() == posY) {
-                checkedSpot = spot;
-            }
-        }
+        Spot checkedSpot = Chessboard.checkSpot(posX, posY);
+
         if (!checkedSpot.hasPiece())
             return 0;
         if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite && !(checkedSpot.getPiece() instanceof King))

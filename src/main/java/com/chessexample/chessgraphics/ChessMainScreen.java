@@ -103,16 +103,16 @@ public class ChessMainScreen extends VBox {
                 else
                     g.setFill(Color.BEIGE);
 
-                if (piece instanceof King && piece.isWhite() /*&& Chessboard.allThreatenedSpotsByBlack[posX][posY]*/) {
+                /*if (piece instanceof King && piece.isWhite() && Chessboard.allThreatenedSpotsByBlack[posX][posY]) {
                     System.out.println("x: " + posX);
                     System.out.println("y: " + posY);
                     System.out.println("Threatened: " + Chessboard.allThreatenedSpotsByBlack[posX][posY]);
                     g.setFill(Color.ORANGE);
                 }
-                /*if (piece instanceof King && !piece.isWhite() && Chessboard.allThreatenedSpotsByWhite[posX][posY])
-                    g.setFill(Color.ORANGE);*/
+                if (piece instanceof King && !piece.isWhite() && Chessboard.allThreatenedSpotsByWhite[posX][posY])
+                    g.setFill(Color.ORANGE);
                 if (Chessboard.allThreatenedSpotsByBlack[posX][posY])
-                    g.setFill(Color.RED);
+                    g.setFill(Color.RED);*/
 
                 g.fillRect(x, y, tileSize, tileSize);
                 xCounter++;
