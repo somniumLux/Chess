@@ -136,15 +136,19 @@ public class Chessboard {
     }
 
     public static void updateAllThreatenedSpots() {
+        for (Spot spot : allSpots) {
+            spot.setThreatenedByWhite(false);
+            spot.setThreatenedByBlack(false);
+        }
         updateThreatenedSpotsByBlack();
         updateThreatenedSpotsByWhite();
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {
                 Spot spot = checkSpot(x,y);
                 if (allThreatenedSpotsByWhite[x][y])
-                    spot.setThreatenedByWhite();
+                    spot.setThreatenedByWhite(true);
                 if (allThreatenedSpotsByBlack[x][y])
-                    spot.setThreatenedByBlack();
+                    spot.setThreatenedByBlack(true);
             }
         }
     }
