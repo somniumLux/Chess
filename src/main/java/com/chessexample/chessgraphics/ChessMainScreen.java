@@ -99,8 +99,17 @@ public class ChessMainScreen extends VBox {
                 else
                     g.setFill(Color.BEIGE);
 
-                if (spot.isThreatenedByBlack())
-                    g.setFill(Color.BLUE);
+                if (spot.isThreatenedByWhite())
+                    g.setFill(Color.RED);
+                /*if (spot.isThreatenedByBlack())
+                    g.setFill(Color.ORANGE);*/
+
+                if (spot.hasPiece()) {
+                    if (piece.isWhite() && piece instanceof King && spot.isThreatenedByBlack())
+                        g.setFill(Color.ORANGE);
+                    if (!piece.isWhite() && piece instanceof King && spot.isThreatenedByWhite())
+                        g.setFill(Color.ORANGE);
+                }
 
                 g.fillRect(x, y, tileSize, tileSize);
                 xCounter++;

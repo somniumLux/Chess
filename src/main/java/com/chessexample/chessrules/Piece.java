@@ -25,9 +25,9 @@ public class Piece {
      * a friendly piece or enemy king*/
     private int canKingMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.checkSpot(posX, posY);
-        boolean isWhite = piece.isWhite;
+        boolean pieceIsWhite = piece.isWhite;
 
-        if (isWhite)
+        if (pieceIsWhite)
             checkedSpot.setThreatenedByWhite(true);
         else
             checkedSpot.setThreatenedByBlack(true);
@@ -71,7 +71,6 @@ public class Piece {
         return -1;
     }
 
-    // TODO update checkKingsMovement() for checks !!!
     // TODO add castling
     public boolean[][] checkKingsMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
