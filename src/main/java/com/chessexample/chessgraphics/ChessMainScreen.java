@@ -27,9 +27,6 @@ public class ChessMainScreen extends VBox {
 
         Chessboard.createSpots();
         Chessboard.updateAllThreatenedSpots();
-
-        //Chessboard.updateThreatenedSpotsByWhite();
-        //Chessboard.updateThreatenedSpotsByBlack();
     }
 
     // TODO fix empty spot bug
@@ -38,7 +35,7 @@ public class ChessMainScreen extends VBox {
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
 
-        if (clickedSpot.hasPiece()) {
+        /*if (clickedSpot.hasPiece()) {
             if (!clickedSpot.getPiece().isWhite() && whitePlayer.isHasTurn()
                     && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
                 return;
@@ -46,7 +43,7 @@ public class ChessMainScreen extends VBox {
             if (clickedSpot.getPiece().isWhite() && !whitePlayer.isHasTurn()
                     && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
                 return;
-        }
+        }*/
 
         if (mousePressCounter == 0)
             lastClickedSpot = clickedSpot;
@@ -77,8 +74,7 @@ public class ChessMainScreen extends VBox {
         Chessboard.allMoves = Chessboard.showPossibleMoves(clickedSpot);
         if (moveMade) {
             Chessboard.eraseAllPossibleMoves();
-            Chessboard.updateThreatenedSpotsByWhite();
-            Chessboard.updateThreatenedSpotsByBlack();
+            Chessboard.updateAllThreatenedSpots();
             whitePlayer.setHasTurn(!whitePlayer.isHasTurn());
         }
         drawBoard();
@@ -103,16 +99,17 @@ public class ChessMainScreen extends VBox {
                 else
                     g.setFill(Color.BEIGE);
 
-                /*if (piece instanceof King && piece.isWhite() && Chessboard.allThreatenedSpotsByBlack[posX][posY]) {
-                    System.out.println("x: " + posX);
-                    System.out.println("y: " + posY);
-                    System.out.println("Threatened: " + Chessboard.allThreatenedSpotsByBlack[posX][posY]);
-                    g.setFill(Color.ORANGE);
+                if (spot.isThreatenedByWhite())
+                    g.setFill(Color.RED);
+                /*if (spot.isThreatenedByBlack())
+                    g.setFill(Color.ORANGE);*/
+
+                if (spot.hasPiece()) {
+                    if (piece.isWhite() && piece instanceof King && spot.isThreatenedByBlack())
+                        g.setFill(Color.ORANGE);
+                    if (!piece.isWhite() && piece instanceof King && spot.isThreatenedByWhite())
+                        g.setFill(Color.ORANGE);
                 }
-                if (piece instanceof King && !piece.isWhite() && Chessboard.allThreatenedSpotsByWhite[posX][posY])
-                    g.setFill(Color.ORANGE);
-                if (Chessboard.allThreatenedSpotsByBlack[posX][posY])
-                    g.setFill(Color.RED);*/
 
                 g.fillRect(x, y, tileSize, tileSize);
                 xCounter++;

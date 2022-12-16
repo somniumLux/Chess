@@ -32,16 +32,16 @@ public class Spot {
         return isThreatenedByWhite;
     }
 
-    public void setThreatenedByWhite() {
-        isThreatenedByWhite = true;
+    public void setThreatenedByWhite(boolean threatenedByWhite) {
+        isThreatenedByWhite = threatenedByWhite;
     }
 
     public boolean isThreatenedByBlack() {
         return isThreatenedByBlack;
     }
 
-    public void setThreatenedByBlack() {
-        isThreatenedByBlack = true;
+    public void setThreatenedByBlack(boolean threatenedByBlack) {
+        isThreatenedByBlack = threatenedByBlack;
     }
 
     public boolean hasPiece() {

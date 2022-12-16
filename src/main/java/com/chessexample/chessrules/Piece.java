@@ -25,6 +25,12 @@ public class Piece {
      * a friendly piece or enemy king*/
     private int canKingMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.checkSpot(posX, posY);
+        boolean pieceIsWhite = piece.isWhite;
+
+        if (pieceIsWhite)
+            checkedSpot.setThreatenedByWhite(true);
+        else
+            checkedSpot.setThreatenedByBlack(true);
 
         if (!piece.isWhite()) {
             if (Chessboard.allThreatenedSpotsByWhite[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
@@ -65,7 +71,6 @@ public class Piece {
         return -1;
     }
 
-    // TODO update checkKingsMovement() for checks !!!
     // TODO add castling
     public boolean[][] checkKingsMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
@@ -96,22 +101,24 @@ public class Piece {
         return possibleMoves2;
     }
 
-    public boolean[][] spotChecker(int x, int y, boolean[][] moves, int movementStatus) {
+    public boolean[][] spotChecker(int x, int y, boolean[][] possibleMoves, int movementStatus) {
         if (movementStatus == -1)
-            return moves;
+            return possibleMoves;
         try {
-            moves[x][y] = true;
+            possibleMoves[x][y] = true;
         } catch (Exception e) {
             System.out.println(e + " in spotChecker()");
         }
-        return moves;
+        return possibleMoves;
     }
 
     public boolean[][] checkStraightMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = startingSpot.getPositionX(), posY = startingSpot.getPositionY(), movementStatus;
+        boolean isWhite = startingSpot.getPiece().isWhite;
+        Spot spot;
 
-        for (int i = 1; i < Chessboard.boardSize; i++) {
+        /*for (int i = 1; i < Chessboard.boardSize; i++) {
             int y = posY + i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
             possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
@@ -136,6 +143,64 @@ public class Piece {
             int x = posX - i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
             possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
+            if (movementStatus != 0)
+                break;
+        }*/
+
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int y = posY + i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
+            possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(posX,y);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
+            if (movementStatus != 0)
+                break;
+        }
+
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int y = posY - i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
+            possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(posX,y);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
+            if (movementStatus != 0)
+                break;
+        }
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int x = posX + i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
+            possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(x, posY);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
+            if (movementStatus != 0)
+                break;
+        }
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int x = posX - i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
+            possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(x, posY);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
             if (movementStatus != 0)
                 break;
         }
@@ -146,12 +211,54 @@ public class Piece {
     public boolean[][] checkDiagonalMovement(Spot startingSpot) {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         int posX = startingSpot.getPositionX(), posY = startingSpot.getPositionY(), movementStatus;
+        boolean isWhite = startingSpot.getPiece().isWhite;
+        Spot spot;
+
+        /*for (int i = 1; i < Chessboard.boardSize; i++) {
+            int x = posX + i;
+            int y = posY + i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
+            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+            if (movementStatus != 0)
+                break;
+        }
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int x = posX - i;
+            int y = posY - i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
+            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+            if (movementStatus != 0)
+                break;
+        }
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int x = posX + i;
+            int y = posY - i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
+            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+            if (movementStatus != 0)
+                break;
+        }
+        for (int i = 1; i < Chessboard.boardSize; i++) {
+            int x = posX - i;
+            int y = posY + i;
+            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
+            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+            if (movementStatus != 0)
+                break;
+        }*/
 
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
             int y = posY + i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(x,y);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
             if (movementStatus != 0)
                 break;
         }
@@ -160,6 +267,13 @@ public class Piece {
             int y = posY - i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(x,y);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
             if (movementStatus != 0)
                 break;
         }
@@ -168,6 +282,13 @@ public class Piece {
             int y = posY - i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(x,y);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
             if (movementStatus != 0)
                 break;
         }
@@ -176,6 +297,13 @@ public class Piece {
             int y = posY + i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
+
+            spot = Chessboard.checkSpot(x,y);
+            if (isWhite)
+                spot.setThreatenedByWhite(true);
+            else
+                spot.setThreatenedByBlack(true);
+
             if (movementStatus != 0)
                 break;
         }
