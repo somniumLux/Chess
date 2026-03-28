@@ -102,10 +102,12 @@ public class Chessboard {
             for (int x = 0; x < boardSize; x++) {
                 allThreatenedSpotsByWhite[x][y] = false;
                 allThreatenedSpotsByBlack[x][y] = false;
+                Spot spot = checkSpot(x, y);
+                if (spot != null) {
+                    spot.setSelected(false);
+                }
             }
         }
-        checkAllThreatenedSpotsByWhite();
-        checkAllThreatenedSpotsByBlack();
     }
 
     public static Spot checkSpot(int x, int y) {

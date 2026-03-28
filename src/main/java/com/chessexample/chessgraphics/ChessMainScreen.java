@@ -19,7 +19,6 @@ public class ChessMainScreen extends VBox {
     static Player whitePlayer = new Player(true);
 
     private static Spot lastClickedSpot;
-    private int mousePressCounter = 0;
 
     public ChessMainScreen() {
 
@@ -37,7 +36,6 @@ public class ChessMainScreen extends VBox {
         this.canvas.setOnMousePressed(this::onMousePressed);
 
         Chessboard.createSpots();
-        Chessboard.updateAllThreatenedSpots();
     }
 
     // TODO fix double click to select a piece
@@ -47,24 +45,25 @@ public class ChessMainScreen extends VBox {
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
         System.out.println(clickedSpot.toString());
 
-        if (mousePressCounter == 0)
-            lastClickedSpot = clickedSpot;
-        mousePressCounter++;
-
-        if (!clickedSpot.hasPiece() && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
+        // If clicking on an empty spot or not a valid move, return early
+        if (!clickedSpot.hasPiece() && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()]) {
             return;
+        }
 
-        boolean moveMade = false;
+        // If this spot is a valid move destination
         if (Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()]) {
+            // Move the piece
             clickedSpot.setPiece(lastClickedSpot.getPiece());
             clickedSpot.setHasPiece(true);
             lastClickedSpot.deletePiece();
-            moveMade = true;
+            lastClickedSpot.setSelected(false);
+            Chessboard.eraseAllPossibleMoves();
+            whitePlayer.setHasTurn(!whitePlayer.isHasTurn());
+            drawBoard();
+            return;
         }
 
-        if (clickedSpot != lastClickedSpot && clickedSpot.hasPiece())
-            lastClickedSpot = clickedSpot;
-
+        // If clicking on the same piece, deselect it
         if (clickedSpot.isSelected()) {
             clickedSpot.setSelected(false);
             Chessboard.eraseAllPossibleMoves();
@@ -72,13 +71,19 @@ public class ChessMainScreen extends VBox {
             return;
         }
 
-        clickedSpot.setSelected(true);
-        Chessboard.allMoves = Chessboard.showPossibleMoves(clickedSpot);
-        if (moveMade) {
+        // Deselect previous piece if any
+        if (lastClickedSpot != null && lastClickedSpot.isSelected()) {
+            lastClickedSpot.setSelected(false);
             Chessboard.eraseAllPossibleMoves();
-            Chessboard.updateAllThreatenedSpots();
-            whitePlayer.setHasTurn(!whitePlayer.isHasTurn());
         }
+
+        // Select new piece and show possible moves
+        if (clickedSpot.hasPiece()) {
+            lastClickedSpot = clickedSpot;
+            clickedSpot.setSelected(true);
+            Chessboard.allMoves = Chessboard.showPossibleMoves(clickedSpot);
+        }
+
         drawBoard();
     }
 
@@ -111,17 +116,17 @@ public class ChessMainScreen extends VBox {
                 else
                     g.setFill(Color.BEIGE);
 
-                if (spot.isThreatenedByWhite())
-                    g.setFill(Color.RED);
+                /*if (spot.isThreatenedByWhite())
+                    g.setFill(Color.RED);*/
                 /*if (spot.isThreatenedByBlack())
                     g.setFill(Color.ORANGE);*/
 
-                if (spot.hasPiece()) {
+                /*if (spot.hasPiece()) {
                     if (piece.isWhite() && piece instanceof King && spot.isThreatenedByBlack())
                         g.setFill(Color.ORANGE);
                     if (!piece.isWhite() && piece instanceof King && spot.isThreatenedByWhite())
                         g.setFill(Color.ORANGE);
-                }
+                }*/
 
                 g.fillRect(x, y, tileSize, tileSize);
 
