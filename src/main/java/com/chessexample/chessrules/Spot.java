@@ -71,18 +71,17 @@ public class Spot {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Spot spot = (Spot) o;
         return positionX == spot.positionX && positionY == spot.positionY;
     }
 
     @Override
     public String toString() {
-        return "Spot{" + " x = " + positionX +
-                ", y = " + positionY +
-                ", piece = " + piece +
-                ", hasPiece = " + hasPiece +
-                '}';
+        return "Spot{" + " x = " + positionX + ", y = " + positionY + ", piece = " + piece + ", hasPiece = " + hasPiece
+                + '}';
     }
 }

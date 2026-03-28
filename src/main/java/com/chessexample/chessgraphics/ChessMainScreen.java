@@ -1,14 +1,15 @@
 package com.chessexample.chessgraphics;
 
+import static com.chessexample.chessgraphics.ImageResource.findImage;
+
 import com.chessexample.chessrules.*;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import static com.chessexample.chessgraphics.ImageResource.findImage;
 
 public class ChessMainScreen extends VBox {
 
@@ -97,17 +98,18 @@ public class ChessMainScreen extends VBox {
                 Spot spot = Chessboard.checkSpot(posX, posY);
                 Piece piece = spot.getPiece();
 
+                /*
+                 * if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                 * g.setFill(Color.DARKRED); else if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize])
+                 * g.setFill(Color.RED);
+                 */
+                /*
+                 * if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                 * g.setFill(Color.DARKRED); else if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize])
+                 * g.setFill(Color.RED);
+                 */
 
-                /*if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
-                    g.setFill(Color.DARKRED);
-                else if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize])
-                    g.setFill(Color.RED);*/
-                /*if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
-                    g.setFill(Color.DARKRED);
-                else if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize])
-                    g.setFill(Color.RED);*/
-
-                if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                if (Chessboard.allMoves[x / tileSize][y / tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
                     g.setFill(Color.GREENYELLOW);
@@ -116,17 +118,18 @@ public class ChessMainScreen extends VBox {
                 else
                     g.setFill(Color.BEIGE);
 
-                /*if (spot.isThreatenedByWhite())
-                    g.setFill(Color.RED);*/
-                /*if (spot.isThreatenedByBlack())
-                    g.setFill(Color.ORANGE);*/
+                /*
+                 * if (spot.isThreatenedByWhite()) g.setFill(Color.RED);
+                 */
+                /*
+                 * if (spot.isThreatenedByBlack()) g.setFill(Color.ORANGE);
+                 */
 
-                /*if (spot.hasPiece()) {
-                    if (piece.isWhite() && piece instanceof King && spot.isThreatenedByBlack())
-                        g.setFill(Color.ORANGE);
-                    if (!piece.isWhite() && piece instanceof King && spot.isThreatenedByWhite())
-                        g.setFill(Color.ORANGE);
-                }*/
+                /*
+                 * if (spot.hasPiece()) { if (piece.isWhite() && piece instanceof King && spot.isThreatenedByBlack())
+                 * g.setFill(Color.ORANGE); if (!piece.isWhite() && piece instanceof King && spot.isThreatenedByWhite())
+                 * g.setFill(Color.ORANGE); }
+                 */
 
                 g.fillRect(x, y, tileSize, tileSize);
 

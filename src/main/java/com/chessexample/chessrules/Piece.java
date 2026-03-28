@@ -20,9 +20,10 @@ public class Piece {
         isKilled = killed;
     }
 
-    /*This method returns value 0 if the king's piece path is unobstructed. If the spot
-     * is threatened by an enemy piece, it returns 1 and -1 if it's obstructed by
-     * a friendly piece or enemy king*/
+    /*
+     * This method returns value 0 if the king's piece path is unobstructed. If the spot is threatened by an enemy
+     * piece, it returns 1 and -1 if it's obstructed by a friendly piece or enemy king
+     */
     private int canKingMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.checkSpot(posX, posY);
         boolean pieceIsWhite = piece.isWhite;
@@ -35,12 +36,11 @@ public class Piece {
         if (!piece.isWhite()) {
             if (Chessboard.allThreatenedSpotsByWhite[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
                 return 1;
-        }
-        else {
+        } else {
             if (Chessboard.allThreatenedSpotsByBlack[checkedSpot.getPositionX()][checkedSpot.getPositionY()])
                 return 1;
         }
-                if (!checkedSpot.hasPiece())
+        if (!checkedSpot.hasPiece())
             return 0;
         if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite) {
             if (checkedSpot.getPiece() instanceof King)
@@ -54,15 +54,17 @@ public class Piece {
         return -1;
     }
 
-    /*This method returns value 0 if the piece's path is unobstructed. If there is
-     * an enemy piece in the way, it returns 1 and -1 if it's obstructed by
-     * a friendly piece or enemy king*/
+    /*
+     * This method returns value 0 if the piece's path is unobstructed. If there is an enemy piece in the way, it
+     * returns 1 and -1 if it's obstructed by a friendly piece or enemy king
+     */
     private int canMoveToSpot(Piece piece, int posX, int posY) {
         Spot checkedSpot = Chessboard.checkSpot(posX, posY);
 
         if (!checkedSpot.hasPiece())
             return 0;
-        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite && !(checkedSpot.getPiece() instanceof King))
+        if (checkedSpot.hasPiece() && checkedSpot.getPiece().isWhite != piece.isWhite
+                && !(checkedSpot.getPiece() instanceof King))
             return 1;
         if (checkedSpot.hasPiece()) {
             if (checkedSpot.getPiece().isWhite == piece.isWhite)
@@ -76,7 +78,7 @@ public class Piece {
         boolean[][] possibleMoves = new boolean[Chessboard.boardSize][Chessboard.boardSize];
         for (int y = startingSpot.getPositionY() - 1; y <= startingSpot.getPositionY() + 1; y++) {
             for (int x = startingSpot.getPositionX() - 1; x <= startingSpot.getPositionX() + 1; x++) {
-                if (canKingMoveToSpot(startingSpot.getPiece(), x,y) != 0)
+                if (canKingMoveToSpot(startingSpot.getPiece(), x, y) != 0)
                     continue;
                 try {
                     possibleMoves[x][y] = x != startingSpot.getPositionX() || y != startingSpot.getPositionY();
@@ -118,41 +120,25 @@ public class Piece {
         boolean isWhite = startingSpot.getPiece().isWhite;
         Spot spot;
 
-        /*for (int i = 1; i < Chessboard.boardSize; i++) {
-            int y = posY + i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
-            possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }
-        for (int i = 1; i < Chessboard.boardSize; i++) {
-            int y = posY - i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
-            possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }
-        for (int i = 1; i < Chessboard.boardSize; i++) {
-            int x = posX + i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
-            possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }
-        for (int i = 1; i < Chessboard.boardSize; i++) {
-            int x = posX - i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, posY);
-            possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }*/
+        /*
+         * for (int i = 1; i < Chessboard.boardSize; i++) { int y = posY + i; movementStatus =
+         * canMoveToSpot(startingSpot.getPiece(), posX, y); possibleMoves = spotChecker(posX, y, possibleMoves,
+         * movementStatus); if (movementStatus != 0) break; } for (int i = 1; i < Chessboard.boardSize; i++) { int y =
+         * posY - i; movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y); possibleMoves = spotChecker(posX,
+         * y, possibleMoves, movementStatus); if (movementStatus != 0) break; } for (int i = 1; i <
+         * Chessboard.boardSize; i++) { int x = posX + i; movementStatus = canMoveToSpot(startingSpot.getPiece(), x,
+         * posY); possibleMoves = spotChecker(x, posY, possibleMoves, movementStatus); if (movementStatus != 0) break; }
+         * for (int i = 1; i < Chessboard.boardSize; i++) { int x = posX - i; movementStatus =
+         * canMoveToSpot(startingSpot.getPiece(), x, posY); possibleMoves = spotChecker(x, posY, possibleMoves,
+         * movementStatus); if (movementStatus != 0) break; }
+         */
 
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int y = posY + i;
             movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
             possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
 
-            spot = Chessboard.checkSpot(posX,y);
+            spot = Chessboard.checkSpot(posX, y);
             if (isWhite)
                 spot.setThreatenedByWhite(true);
             else
@@ -167,7 +153,7 @@ public class Piece {
             movementStatus = canMoveToSpot(startingSpot.getPiece(), posX, y);
             possibleMoves = spotChecker(posX, y, possibleMoves, movementStatus);
 
-            spot = Chessboard.checkSpot(posX,y);
+            spot = Chessboard.checkSpot(posX, y);
             if (isWhite)
                 spot.setThreatenedByWhite(true);
             else
@@ -214,38 +200,18 @@ public class Piece {
         boolean isWhite = startingSpot.getPiece().isWhite;
         Spot spot;
 
-        /*for (int i = 1; i < Chessboard.boardSize; i++) {
-            int x = posX + i;
-            int y = posY + i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
-            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }
-        for (int i = 1; i < Chessboard.boardSize; i++) {
-            int x = posX - i;
-            int y = posY - i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
-            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }
-        for (int i = 1; i < Chessboard.boardSize; i++) {
-            int x = posX + i;
-            int y = posY - i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
-            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }
-        for (int i = 1; i < Chessboard.boardSize; i++) {
-            int x = posX - i;
-            int y = posY + i;
-            movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
-            possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
-            if (movementStatus != 0)
-                break;
-        }*/
+        /*
+         * for (int i = 1; i < Chessboard.boardSize; i++) { int x = posX + i; int y = posY + i; movementStatus =
+         * canMoveToSpot(startingSpot.getPiece(), x, y); possibleMoves = spotChecker(x, y, possibleMoves,
+         * movementStatus); if (movementStatus != 0) break; } for (int i = 1; i < Chessboard.boardSize; i++) { int x =
+         * posX - i; int y = posY - i; movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y); possibleMoves =
+         * spotChecker(x, y, possibleMoves, movementStatus); if (movementStatus != 0) break; } for (int i = 1; i <
+         * Chessboard.boardSize; i++) { int x = posX + i; int y = posY - i; movementStatus =
+         * canMoveToSpot(startingSpot.getPiece(), x, y); possibleMoves = spotChecker(x, y, possibleMoves,
+         * movementStatus); if (movementStatus != 0) break; } for (int i = 1; i < Chessboard.boardSize; i++) { int x =
+         * posX - i; int y = posY + i; movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y); possibleMoves =
+         * spotChecker(x, y, possibleMoves, movementStatus); if (movementStatus != 0) break; }
+         */
 
         for (int i = 1; i < Chessboard.boardSize; i++) {
             int x = posX + i;
@@ -253,7 +219,7 @@ public class Piece {
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
 
-            spot = Chessboard.checkSpot(x,y);
+            spot = Chessboard.checkSpot(x, y);
             if (isWhite)
                 spot.setThreatenedByWhite(true);
             else
@@ -268,7 +234,7 @@ public class Piece {
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
 
-            spot = Chessboard.checkSpot(x,y);
+            spot = Chessboard.checkSpot(x, y);
             if (isWhite)
                 spot.setThreatenedByWhite(true);
             else
@@ -283,7 +249,7 @@ public class Piece {
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
 
-            spot = Chessboard.checkSpot(x,y);
+            spot = Chessboard.checkSpot(x, y);
             if (isWhite)
                 spot.setThreatenedByWhite(true);
             else
@@ -298,7 +264,7 @@ public class Piece {
             movementStatus = canMoveToSpot(startingSpot.getPiece(), x, y);
             possibleMoves = spotChecker(x, y, possibleMoves, movementStatus);
 
-            spot = Chessboard.checkSpot(x,y);
+            spot = Chessboard.checkSpot(x, y);
             if (isWhite)
                 spot.setThreatenedByWhite(true);
             else
@@ -323,15 +289,18 @@ public class Piece {
 
             if (startingSpot.getPositionY() == 6) {
                 if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 2).hasPiece()
-                        && !Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 1).hasPiece())
+                        && !Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() - 1)
+                                .hasPiece())
                     possibleMoves[posX][posY - 2] = true;
             }
         }
         // checking if white pawn can eat
         for (Spot spotInBoard : Chessboard.allSpots) {
-            if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY + 1) {
+            if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1)
+                    && spotInBoard.getPositionY() == posY + 1) {
                 if (spotInBoard.hasPiece()) {
-                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite && !(spotInBoard.getPiece() instanceof King)) {
+                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite
+                            && !(spotInBoard.getPiece() instanceof King)) {
                         try {
                             possibleMoves[spotInBoard.getPositionX()][spotInBoard.getPositionY()] = true;
                         } catch (Exception e) {
@@ -348,15 +317,18 @@ public class Piece {
 
             if (startingSpot.getPositionY() == 1) {
                 if (!Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 2).hasPiece()
-                        && !Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 1).hasPiece())
+                        && !Chessboard.checkSpot(startingSpot.getPositionX(), startingSpot.getPositionY() + 1)
+                                .hasPiece())
                     possibleMoves[posX][posY + 2] = true;
             }
         }
         // checking if black pawn can eat
         for (Spot spotInBoard : Chessboard.allSpots) {
-            if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1) && spotInBoard.getPositionY() == posY - 1) {
+            if ((spotInBoard.getPositionX() == posX + 1 || spotInBoard.getPositionX() == posX - 1)
+                    && spotInBoard.getPositionY() == posY - 1) {
                 if (spotInBoard.hasPiece()) {
-                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite && !(spotInBoard.getPiece() instanceof King)) {
+                    if (spotInBoard.getPiece().isWhite != startingSpot.getPiece().isWhite
+                            && !(spotInBoard.getPiece() instanceof King)) {
                         try {
                             possibleMoves[spotInBoard.getPositionX()][spotInBoard.getPositionY()] = true;
                         } catch (Exception e) {
@@ -375,9 +347,10 @@ public class Piece {
 
         for (int y = 0; y < Chessboard.boardSize; y++) {
             for (int x = 0; x < Chessboard.boardSize; x++) {
-                Spot endingSpot = Chessboard.checkSpot(x,y);
+                Spot endingSpot = Chessboard.checkSpot(x, y);
                 if (endingSpot.hasPiece()) {
-                    if (endingSpot.getPiece() instanceof King || endingSpot.getPiece().isWhite == startingSpot.getPiece().isWhite)
+                    if (endingSpot.getPiece() instanceof King
+                            || endingSpot.getPiece().isWhite == startingSpot.getPiece().isWhite)
                         continue;
                 }
                 try {
