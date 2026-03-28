@@ -93,6 +93,21 @@ public class Chessboard {
         }
     }
 
+    public static void resetBoard() {
+        System.out.println("Does it run?");
+        allSpots.clear();
+        createSpots();
+        eraseAllPossibleMoves();
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
+                allThreatenedSpotsByWhite[x][y] = false;
+                allThreatenedSpotsByBlack[x][y] = false;
+            }
+        }
+        checkAllThreatenedSpotsByWhite();
+        checkAllThreatenedSpotsByBlack();
+    }
+
     public static Spot checkSpot(int x, int y) {
         for (Spot spot : allSpots) {
             if (spot.getPositionX() == x && spot.getPositionY() == y)

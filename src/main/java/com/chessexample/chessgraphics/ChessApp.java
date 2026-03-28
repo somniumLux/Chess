@@ -9,7 +9,7 @@ public class ChessApp extends Application {
     @Override
     public void start(Stage stage) {
         ChessMainScreen chessMainScreen = new ChessMainScreen();
-        Scene scene = new Scene(chessMainScreen, 480, 480);
+        Scene scene = new Scene(chessMainScreen, 480, 504);
         stage.setScene(scene);
         stage.show();
 

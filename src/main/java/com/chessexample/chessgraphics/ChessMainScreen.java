@@ -3,6 +3,7 @@ package com.chessexample.chessgraphics;
 import com.chessexample.chessrules.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -12,7 +13,7 @@ import static com.chessexample.chessgraphics.ImageResource.findImage;
 public class ChessMainScreen extends VBox {
 
     private final Canvas canvas;
-    static final double canvasWidth = 800, canvasHeight = 760;
+    static final double canvasWidth = 800, canvasHeight = 800;
     static final int tileSize = 60;
 
     static Player whitePlayer = new Player(true);
@@ -21,29 +22,30 @@ public class ChessMainScreen extends VBox {
     private int mousePressCounter = 0;
 
     public ChessMainScreen() {
+
+        Button resetButton = new Button("Reset");
+        resetButton.setPrefHeight(16);
+        resetButton.setPrefWidth(50);
+        resetButton.setOnAction(actionEvent -> {
+            System.out.println("Reset button pressed");
+            Chessboard.resetBoard();
+            drawBoard();
+        });
+
         this.canvas = new Canvas(canvasWidth, canvasHeight);
-        this.getChildren().addAll(this.canvas);
+        this.getChildren().addAll(resetButton, this.canvas);
         this.canvas.setOnMousePressed(this::onMousePressed);
 
         Chessboard.createSpots();
         Chessboard.updateAllThreatenedSpots();
     }
 
-    // TODO fix empty spot bug
+    // TODO fix double click to select a piece
     private void onMousePressed(MouseEvent mouseEvent) {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
         int mouseX = (int) x / tileSize + 1, mouseY = (int) y / tileSize + 1;
         Spot clickedSpot = Chessboard.checkSpot(mouseX - 1, mouseY - 1);
-
-        /*if (clickedSpot.hasPiece()) {
-            if (!clickedSpot.getPiece().isWhite() && whitePlayer.isHasTurn()
-                    && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
-                return;
-
-            if (clickedSpot.getPiece().isWhite() && !whitePlayer.isHasTurn()
-                    && !Chessboard.allMoves[clickedSpot.getPositionX()][clickedSpot.getPositionY()])
-                return;
-        }*/
+        System.out.println(clickedSpot.toString());
 
         if (mousePressCounter == 0)
             lastClickedSpot = clickedSpot;
@@ -90,6 +92,16 @@ public class ChessMainScreen extends VBox {
                 Spot spot = Chessboard.checkSpot(posX, posY);
                 Piece piece = spot.getPiece();
 
+
+                /*if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                    g.setFill(Color.DARKRED);
+                else if (Chessboard.allThreatenedSpotsByWhite[x/tileSize][y/tileSize])
+                    g.setFill(Color.RED);*/
+                /*if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
+                    g.setFill(Color.DARKRED);
+                else if (Chessboard.allThreatenedSpotsByBlack[x/tileSize][y/tileSize])
+                    g.setFill(Color.RED);*/
+
                 if (Chessboard.allMoves[x/tileSize][y/tileSize] && (xCounter + yCounter) % 2 == 0)
                     g.setFill(Color.YELLOW);
                 else if (Chessboard.allMoves[x / tileSize][y / tileSize])
@@ -112,9 +124,9 @@ public class ChessMainScreen extends VBox {
                 }
 
                 g.fillRect(x, y, tileSize, tileSize);
-                xCounter++;
 
                 g.drawImage(findImage(piece), x, y);
+                xCounter++;
             }
             yCounter++;
             g.setFill(Color.BURLYWOOD);
