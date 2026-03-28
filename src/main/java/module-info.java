@@ -10,4 +10,6 @@ module com.chessexample.javafxdemo {
     exports com.chessexample.chessrules;
     exports com.chessexample.chessgraphics;
     opens com.chessexample.chessgraphics to javafx.fxml;
+    exports com.chessexample.chessrules.piecetype;
+    opens com.chessexample.chessrules.piecetype to javafx.fxml;
 }

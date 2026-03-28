@@ -1,5 +1,8 @@
 package com.chessexample.chessrules;
 
+import com.chessexample.chessrules.piecetype.King;
+import com.chessexample.chessrules.piecetype.Spot;
+
 public class Piece {
 
     private boolean isWhite, isKilled = false;

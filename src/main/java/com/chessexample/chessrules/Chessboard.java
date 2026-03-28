@@ -1,5 +1,13 @@
 package com.chessexample.chessrules;
 
+import com.chessexample.chessrules.piecetype.Bishop;
+import com.chessexample.chessrules.piecetype.King;
+import com.chessexample.chessrules.piecetype.Knight;
+import com.chessexample.chessrules.piecetype.Pawn;
+import com.chessexample.chessrules.piecetype.Queen;
+import com.chessexample.chessrules.piecetype.Rook;
+import com.chessexample.chessrules.piecetype.Spot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,32 +123,37 @@ public class Chessboard {
             if (spot.getPositionX() == x && spot.getPositionY() == y)
                 return spot;
         }
-        return Chessboard.allSpots.get(0);
+        return Chessboard.allSpots.getFirst();
     }
 
-    public static boolean[][] showPossibleMoves(Spot spot) {
-        boolean[][] spots = new boolean[boardSize][boardSize];
-        if (!spot.hasPiece()) {
+    public static boolean[][] showPossibleMoves(Spot checkedSpot) {
+        boolean[][] allSpots = new boolean[boardSize][boardSize];
+        if (!checkedSpot.hasPiece()) {
             for (int x = 0; x < boardSize; x++) {
                 for (int y = 0; y < boardSize; y++) {
-                    spots[x][y] = false;
+                    allSpots[x][y] = false;
                 }
             }
         } else {
-            if (spot.getPiece() instanceof Pawn)
-                spots = spot.getPiece().checkPawnMovement(spot);
-            else if (spot.getPiece() instanceof Knight)
-                spots = spot.getPiece().checkKnightsMovement(spot);
-            else if (spot.getPiece() instanceof Bishop)
-                spots = spot.getPiece().checkDiagonalMovement(spot);
-            else if (spot.getPiece() instanceof Rook)
-                spots = spot.getPiece().checkStraightMovement(spot);
-            else if (spot.getPiece() instanceof Queen)
-                spots = spot.getPiece().checkQueensMovement(spot);
-            else if (spot.getPiece() instanceof King)
-                spots = spot.getPiece().checkKingsMovement(spot);
+            allSpots = updatePossibleMoves(allSpots, checkedSpot);
         }
-        return spots;
+        return allSpots;
+    }
+
+    public static boolean[][] updatePossibleMoves(boolean[][] allSpots, Spot checkedSpot) {
+        Piece piece = checkedSpot.getPiece();
+        if (piece == null)
+            return allSpots;
+        allSpots = switch (piece) {
+            case Pawn p -> p.checkPawnMovement(checkedSpot);
+            case Knight k -> k.checkKnightsMovement(checkedSpot);
+            case Bishop b -> b.checkDiagonalMovement(checkedSpot);
+            case Rook r -> r.checkStraightMovement(checkedSpot);
+            case Queen q -> q.checkQueensMovement(checkedSpot);
+            case King k -> k.checkKingsMovement(checkedSpot);
+            default -> allSpots;
+        };
+        return allSpots;
     }
 
     public static void eraseAllPossibleMoves() {
@@ -154,9 +167,9 @@ public class Chessboard {
     // TODO fix commented bug (spots threatened but the king)
     /**
      * Bug with spots that are threatened by the king. If the king is brought to the most left or right column,
-     * threatened spots are not updated properly (some spots in the most left and right columns are left uncolored until
-     * player presses on the king piece again and some spots towards the middle of the board are left colored until the
-     * king is brought back closer).
+     * threatened spots are not updated properly. (Some spots in the most left and right columns are left uncolored
+     * until player presses on the king piece again and some spots towards the middle of the board are left colored
+     * until the king is brought back closer.)
      */
     public static void updateAllThreatenedSpots() {
         for (Spot spot : allSpots) {

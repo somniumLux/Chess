@@ -3,6 +3,7 @@ package com.chessexample.chessgraphics;
 import static com.chessexample.chessgraphics.ImageResource.findImage;
 
 import com.chessexample.chessrules.*;
+import com.chessexample.chessrules.piecetype.Spot;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

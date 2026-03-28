@@ -3,6 +3,7 @@ package com.chessexample.chessgraphics;
 import java.io.File;
 
 import com.chessexample.chessrules.*;
+import com.chessexample.chessrules.piecetype.*;
 
 import javafx.scene.image.Image;
 
